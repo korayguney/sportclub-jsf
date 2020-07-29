@@ -17,7 +17,7 @@ import com.tennis.models.Game;
 public class Tournament {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@OneToMany(mappedBy = "tournament" )

@@ -10,24 +10,33 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Player extends User{
+public class Player extends User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int age;
 	private Gender gender;
-	
+
 	@ManyToMany
 	private List<Tournament> tournaments = new ArrayList<Tournament>();
+
+	// default constructor
+	public Player() {
+
+	}
 	
-	public enum Gender {
-		MALE,
-		FEMALE;
+	public Player(String firstname, String lastname, int age, Gender gender) {
+		this.age = age;
+		this.gender = gender;
 	}
 
-		
-	
+
+
+	public enum Gender {
+		MALE, FEMALE;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -59,8 +68,5 @@ public class Player extends User{
 	public void setTournaments(List<Tournament> tournaments) {
 		this.tournaments = tournaments;
 	}
-	
-	
-	
-	
+
 }

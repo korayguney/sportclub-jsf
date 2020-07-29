@@ -9,12 +9,12 @@ import javax.persistence.Id;
 public class Parent extends User {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String address;
 
-	
-	
+
+
 	public int getId() {
 		return id;
 	}

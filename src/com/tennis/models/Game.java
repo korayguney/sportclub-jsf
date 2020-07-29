@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 public class Game {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int score;
 	private Date date;

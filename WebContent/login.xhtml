@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	
+</h:head>
+<body>
+
+	<h:form>
+
+		<p:inputText value="#{loginMBean.login.email}" required="true"
+			requiredMessage="Email is not optional!" id="email"></p:inputText>
+		<p:message for="email"></p:message>
+
+		<p:password value="#{loginMBean.login.password}" required="true"
+			requiredMessage="Password is not optional!" id="passw"></p:password>
+		<p:message for="passw"></p:message>
+
+		<p:commandButton action="#{loginMBean.checkUser()}" value="Login"></p:commandButton>
+
+		<p:messages showDetail="true" autoUpdate="true" />
+
+
+	</h:form>
+
+
+
+	
+
+</body>
+</html>

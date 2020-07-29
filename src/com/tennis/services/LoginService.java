@@ -1,0 +1,53 @@
+package com.tennis.services;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import com.tennis.models.Admin;
+import com.tennis.models.Login;
+import com.tennis.models.Parent;
+import com.tennis.models.Player;
+import com.tennis.models.User;
+
+@Stateless
+public class LoginService {
+
+	@PersistenceContext
+	EntityManager entityManager;
+
+	public User checkUserOnDatabase(Login login) {
+		TypedQuery<Login> q = entityManager
+				.createQuery("SELECT l FROM Login l WHERE l.email =:email AND l.password =:password", Login.class);
+		q.setParameter("email", login.getEmail());
+		q.setParameter("password", login.getPassword());
+		Login loginResult = q.getSingleResult();
+
+		return ((loginResult != null) ? getUserFromDatabase(login) : null);
+
+	}
+
+	private User getUserFromDatabase(Login login) {
+
+		switch (login.getRole()) {
+		case ADMIN:
+			Admin admin = entityManager.createQuery("SELECT a FROM Admin a WHERE a.email =:email", Admin.class)
+					.setParameter("email", login.getEmail()).getSingleResult();
+			return (User)admin;
+
+		case PARENT:
+			Parent parent = entityManager.createQuery("SELECT p FROM Parent p WHERE p.email =:email", Parent.class)
+					.setParameter("email", login.getEmail()).getSingleResult();
+			return (User)parent;
+			
+		case PLAYER:
+			Player player = entityManager.createQuery("SELECT p FROM Player p WHERE p.email =:email", Player.class)
+					.setParameter("email", login.getEmail()).getSingleResult();
+			return (User)player;
+		}
+
+		return null;
+	}
+
+}

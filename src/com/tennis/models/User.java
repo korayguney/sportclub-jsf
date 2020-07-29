@@ -1,6 +1,7 @@
 package com.tennis.models;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class User {
@@ -9,9 +10,24 @@ public abstract class User {
 	private String lastname;
 	private String email;
 	private long phone_num;
+	private Role role;
+	@Transient
+	private String password;
 	
 	
 	
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public String getFirstname() {
 		return firstname;
 	}
