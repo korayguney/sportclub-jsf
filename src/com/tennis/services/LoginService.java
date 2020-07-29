@@ -20,7 +20,7 @@ public class LoginService {
 	public User checkUserOnDatabase(Login login) {
 		System.out.println("inside checkUserOnDatabase");
 
-		
+		try {
 		TypedQuery<Login> q = entityManager
 				.createQuery("SELECT l FROM Login l WHERE l.email =:email AND l.password =:password", Login.class);
 		q.setParameter("email", login.getEmail());
@@ -28,6 +28,11 @@ public class LoginService {
 		Login loginResult = q.getSingleResult();
 
 		return ((loginResult != null) ? getUserFromDatabase(loginResult) : null);
+		
+		} catch (Exception e) {
+			return null;
+		}
+		
 
 	}
 
