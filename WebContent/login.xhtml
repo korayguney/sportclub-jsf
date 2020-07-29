@@ -5,31 +5,48 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-	
-</h:head>
+<h:head></h:head>
 <body>
 
+	<br />
+	<div align="center">
+		<img src="img/tennisschoollogo.png" alt="tennis logo" width="400" height="290" />
+	</div>
+		<br />
+	<h1 align="center">
+		Login Page
+	</h1>
+	<br />
+	<hr />
 	<h:form>
-
-		<p:inputText value="#{loginMBean.login.email}" required="true"
-			requiredMessage="Email is not optional!" id="email"></p:inputText>
-		<p:message for="email"></p:message>
-
-		<p:password value="#{loginMBean.login.password}" required="true"
-			requiredMessage="Password is not optional!" id="passw"></p:password>
-		<p:message for="passw"></p:message>
-
-		<p:commandButton action="#{loginMBean.checkUser()}" value="Login"></p:commandButton>
-
+		<table align="center">
+			<tr>
+				<td>Email :</td>
+				<td><p:inputText value="#{loginMBean.login.email}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="email" /></td>
+				<td><p:message for="email" /></td>
+			</tr>
+			<tr>
+				<td>Password :</td>
+				<td><p:password value="#{loginMBean.login.password}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="passw" /></td>
+				<td><p:message for="passw" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><p:commandButton action="#{loginMBean.checkUser()}"
+						value="Login" ajax="false" /></td>
+				<td></td>
+			</tr>
+			
+		</table>
+		
 		<p:messages showDetail="true" autoUpdate="true" />
-
-
 	</h:form>
 
-
-
-	
+	<br />
 
 </body>
 </html>

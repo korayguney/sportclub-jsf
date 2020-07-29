@@ -16,6 +16,12 @@ public class Login {
 	private String password;
 	private Role role;
 
+	
+	
+	public Login() {
+		super();
+	}
+
 	public Login(String email, String password, Role role) {
 		this.email = email;
 		this.password = password;
@@ -54,4 +60,11 @@ public class Login {
 		this.role = role;
 	}
 
+	@Override
+	public String toString() {
+		return "Login [email=" + email + ", password=" + password + ", role=" + role + "]";
+	}
+
+	
+	
 }

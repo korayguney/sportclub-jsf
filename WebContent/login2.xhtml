@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Login V17</title>
+	<title>Tennis School Management System</title>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!--===============================================================================================-->
@@ -40,26 +40,7 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 	<!--===============================================================================================-->
 </h:head>
-<body>
-
-	<h:form>
-
-		<p:inputText value="#{loginMBean.login.email}" required="true"
-			requiredMessage="Email is not optional!" id="email"></p:inputText>
-		<p:message for="email"></p:message>
-
-		<p:password value="#{loginMBean.login.password}" required="true"
-			requiredMessage="Password is not optional!" id="passw"></p:password>
-		<p:message for="passw"></p:message>
-
-		<p:commandButton action="#{loginMBean.checkUser()}" value="Login"></p:commandButton>
-
-		<p:messages showDetail="true" autoUpdate="true" />
-
-
-	</h:form>
-
-
+<h:body>
 
 	<h:form>
 		<div class="limiter">
@@ -68,35 +49,32 @@
 					<form class="login100-form validate-form">
 						<span class="login100-form-title p-b-34"> Account Login </span>
 
-						<div>
+						Email : <br />
+						<p:inputText value="#{login.login.email}" required="true"
+							requiredMessage="You cannot left empty!" id="email" size="27" />
+						<p:message for="email" />
 
-							<p:inputText value="#{loginMBean.login.email}" required="true"
-								requiredMessage="Email is not optional!" id="email"></p:inputText>
-							<p:message for="email"></p:message>
-						</div>
-						<div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20"
-							data-validate="Type password">
-							<!-- input class="input100" type="password" name="pass" placeholder="Password"/ -->
-							<!-- span class="focus-input100"></span -->
-							<p:password value="#{loginMBean.login.password}" required="true"
-								requiredMessage="Password is not optional!" id="passw"></p:password>
-							<p:message for="passw"></p:message>
-						</div>
+						Password : <br />
 
-						<div class="container-login100-form-btn">
-							<!--  button class="login100-form-btn">Sign in</button -->
-							<p:commandButton action="#{loginMBean.checkUser()}" value="Login"></p:commandButton>
-						</div>
+						<p:password value="#{login.login.password}" required="true"
+							requiredMessage="You cannot left empty!" id="passw" size="27" />
+						<p:message for="passw" />
+
+						<br />
+
+						<p:commandButton action="#{login.checkUser()}" value="Login"
+							class="login100-form-btn" />
+						<br />
+
+						<p:button value="Back" class="login100-form-btn"
+							href="./index.xhtml" />
 
 						<p:messages showDetail="true" autoUpdate="true" />
 
-						<div class="w-full text-center p-t-27 p-b-239">
-							<span class="txt1"> Forgot </span> <a href="#" class="txt2">
-								User name / password? </a>
-						</div>
 
-						<div class="w-full text-center">
-							<a href="#" class="txt3"> Sign Up </a>
+						<div class="text-center p-t-115">
+							<span class="txt1"> Don’t have an account? </span> <a
+								class="txt2" href="#"> Sign Up </a>
 						</div>
 					</form>
 
@@ -133,5 +111,5 @@
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
 
-</body>
+</h:body>
 </html>

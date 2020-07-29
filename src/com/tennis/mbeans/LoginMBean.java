@@ -1,11 +1,15 @@
 package com.tennis.mbeans;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import com.tennis.models.Admin;
 import com.tennis.models.Login;
+import com.tennis.models.Parent;
+import com.tennis.models.Player;
 import com.tennis.models.Role;
 import com.tennis.models.User;
 import com.tennis.services.LoginService;
@@ -14,20 +18,26 @@ import com.tennis.services.LoginService;
 public class LoginMBean {
 
 	private Login login;
-
+	
+	@PostConstruct
+	private void init() {
+		login = new Login();
+	}
+	
 	@EJB
 	private LoginService loginService;
 
 	public String checkUser() {
-
+		System.out.println("inside checkuser");
 		User user = loginService.checkUserOnDatabase(login);
-
+		System.out.println("USER : " + user );
+		
 		if (user != null) {
-			if (user.getRole().equals(Role.ADMIN)) {
+			if (user instanceof Admin) {
 				return "main-admin";
-			} else if (user.getRole().equals(Role.PARENT)) {
+			} else if (user instanceof Parent) {
 				return "main-parent";
-			} else if (user.getRole().equals(Role.PLAYER)) {
+			} else if (user instanceof Player) {
 				return "main-player";
 			}
 			return "login";

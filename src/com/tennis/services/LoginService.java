@@ -18,18 +18,23 @@ public class LoginService {
 	EntityManager entityManager;
 
 	public User checkUserOnDatabase(Login login) {
+		System.out.println("inside checkUserOnDatabase");
+
+		
 		TypedQuery<Login> q = entityManager
 				.createQuery("SELECT l FROM Login l WHERE l.email =:email AND l.password =:password", Login.class);
 		q.setParameter("email", login.getEmail());
 		q.setParameter("password", login.getPassword());
 		Login loginResult = q.getSingleResult();
 
-		return ((loginResult != null) ? getUserFromDatabase(login) : null);
+		return ((loginResult != null) ? getUserFromDatabase(loginResult) : null);
 
 	}
 
 	private User getUserFromDatabase(Login login) {
 
+		System.out.println("LOGIN : " + login.toString());
+		
 		switch (login.getRole()) {
 		case ADMIN:
 			Admin admin = entityManager.createQuery("SELECT a FROM Admin a WHERE a.email =:email", Admin.class)
