@@ -1,11 +1,21 @@
 package com.tennis.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-@MappedSuperclass
-public abstract class User {
-
+@Entity
+@Inheritance (strategy = InheritanceType.JOINED)
+public class User {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -16,6 +26,12 @@ public abstract class User {
 	
 	
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public Role getRole() {
 		return role;
 	}

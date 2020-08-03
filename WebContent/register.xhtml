@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+<body>
+
+	<br />
+	<br />
+	<br />
+
+	<h1 align="center">USER ADDING PAGE</h1>
+	<hr />
+	<br />
+	<br />
+
+	<h:form>
+
+
+
+		<table align="center">
+			<tr>
+				<td><p:outputLabel>First Name :</p:outputLabel></td>
+				<td><p:inputText value="#{register.user.firstname}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="fname" /></td>
+				<td><p:message for="fname" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Last Name :</p:outputLabel></td>
+				<td><p:inputText value="#{register.user.lastname}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="sname" /></td>
+				<td><p:message for="sname" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Email :</p:outputLabel></td>
+				<td><p:inputText value="#{register.user.email}" required="true"
+						requiredMessage="You cannot left empty!" id="email" /></td>
+				<td><p:message for="email" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Phone Number :</p:outputLabel></td>
+				<td><p:inputText value="#{register.user.phone_num}"
+						required="true" requiredMessage="You cannot left empty!" id="pnum" /></td>
+				<td><p:message for="pnum" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Password :</p:outputLabel></td>
+				<td><p:password value="#{register.user.password}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="passw" /></td>
+				<td><p:message for="passw" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Role :</p:outputLabel></td>
+				<td><p:selectOneMenu id="role" value="#{register.user.role}" onchange="submit()"
+						 valueChangeListener="#{register.enableInputText}" style="width: 220px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItems value="#{register.roles}" />
+						<p:ajax listener="#{register.enableInputText}" />
+					</p:selectOneMenu></td>
+				<td><p:message for="role" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Age :</p:outputLabel></td>
+				<td><p:inputText value="#{register.player.age}"
+						required="true" requiredMessage="You cannot left empty!" id="age" disabled="#{register.disable}" /></td>
+				<td><p:message for="age" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><p:commandButton action="#{register.saveUser()}"
+						value="Save" ajax="false" validateClient="true" />
+					<p:button value="Cancel" href="userlist.xhtml" /></td>
+			</tr>
+		</table>
+		<p:messages showDetail="true" autoUpdate="true" />
+	</h:form>
+	<br />
+	<br />
+	<hr />
+
+
+</body>
+</html>

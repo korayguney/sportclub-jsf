@@ -34,6 +34,7 @@ public class InitService {
 			player.setGender(Gender.FEMALE);
 			player.setPhone_num(5555555555L);
 			player.setPassword("1234");
+			player.setRole(Role.PLAYER);
 			
 			Login login1 = new Login(player.getEmail(),player.getPassword(), Role.PLAYER);
 			
@@ -45,6 +46,7 @@ public class InitService {
 			parent.setAddress("London/England");
 			parent.setEmail("s@s.com");
 			parent.setPassword("1234");
+			parent.setRole(Role.PARENT);
 
 			Login login2 = new Login(parent.getEmail(),parent.getPassword(), Role.PARENT);
 
@@ -55,7 +57,8 @@ public class InitService {
 			admin.setPhone_num(5305016681L);
 			admin.setEmail("k@k.com");
 			admin.setPassword("1234");
-
+			admin.setRole(Role.ADMIN);
+			
 			Login login3 = new Login(admin.getEmail(),admin.getPassword(), Role.ADMIN);
 
 			
