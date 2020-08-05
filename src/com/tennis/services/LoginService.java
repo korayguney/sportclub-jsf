@@ -1,15 +1,20 @@
 package com.tennis.services;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import com.tennis.exceptions.EmailIsAlreadyExistException;
 import com.tennis.models.Admin;
 import com.tennis.models.Login;
 import com.tennis.models.Parent;
 import com.tennis.models.Player;
 import com.tennis.models.User;
+import com.tennis.utils.HashAlgorithm;
+import com.tennis.utils.HashingUtils;
 
 @Stateless
 public class LoginService {
@@ -18,13 +23,12 @@ public class LoginService {
 	EntityManager entityManager;
 
 	public User checkUserOnDatabase(Login login) {
-		System.out.println("inside checkUserOnDatabase");
 
 		try {
 			TypedQuery<Login> q = entityManager
 					.createQuery("SELECT l FROM Login l WHERE l.email =:email AND l.password =:password", Login.class);
 			q.setParameter("email", login.getEmail());
-			q.setParameter("password", login.getPassword());
+			q.setParameter("password", HashingUtils.hashPassword(login.getPassword(), HashAlgorithm.SHA256).toString());
 			Login loginResult = q.getSingleResult();
 
 			return ((loginResult != null) ? getUserFromDatabase(loginResult) : null);
@@ -34,6 +38,7 @@ public class LoginService {
 		}
 
 	}
+
 
 	private User getUserFromDatabase(Login login) {
 

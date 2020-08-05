@@ -14,6 +14,7 @@ import javax.faces.model.SelectItem;
 
 import org.primefaces.event.SelectEvent;
 
+import com.tennis.exceptions.EmailIsAlreadyExistException;
 import com.tennis.models.Player;
 import com.tennis.models.Role;
 import com.tennis.models.User;
@@ -42,10 +43,16 @@ public class RegisterBean {
 	UserService userService;
 
 	public String saveUser() {
-		userService.saveUser(this.user);
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_WARN, "", "User is saved "));
-		return "register";
+		try {
+			userService.saveUser(this.user);
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "", "User is saved "));
+		} catch (EmailIsAlreadyExistException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "", "User is already exist "));
+		} 
+		return "secure/register";
+		
 	}
 
 	public void enableInputText(ValueChangeEvent event) {

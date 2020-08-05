@@ -30,7 +30,7 @@ public class UserListBean {
 	public String deleteUser(User user) {
 		userService.deleteUser(user);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Succesfully deleted"));
-		return "userlist?faces-redirect=true";
+		return "secure/userlist?faces-redirect=true";
 
 	}
 

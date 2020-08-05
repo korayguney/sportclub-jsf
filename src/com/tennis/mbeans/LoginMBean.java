@@ -1,10 +1,14 @@
 package com.tennis.mbeans;
 
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import com.tennis.models.Admin;
 import com.tennis.models.Login;
@@ -24,6 +28,9 @@ public class LoginMBean {
 		login = new Login();
 	}
 	
+	@ManagedProperty(value = "#{sessionScopeBean}")
+	SessionScopeBean sessionScopeBean;
+	
 	@EJB
 	private LoginService loginService;
 
@@ -33,12 +40,15 @@ public class LoginMBean {
 		System.out.println("USER : " + user );
 		
 		if (user != null) {
+			
+			sessionScopeBean.setUser(user);
+			
 			if (user instanceof Admin) {
-				return "main-admin";
+				return "secure/main-admin";
 			} else if (user instanceof Parent) {
-				return "main-parent";
+				return "secure/main-parent";
 			} else if (user instanceof Player) {
-				return "main-player";
+				return "secure/main-player";
 			}
 			return "login";
 		} else {
@@ -49,6 +59,17 @@ public class LoginMBean {
 
 	}
 
+	public void logout() {
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+    	context.getExternalContext().invalidateSession();
+        try {
+			context.getExternalContext().redirect("login.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Login getLogin() {
 		return login;
 	}
@@ -63,6 +84,14 @@ public class LoginMBean {
 
 	public void setLoginService(LoginService loginService) {
 		this.loginService = loginService;
+	}
+
+	public SessionScopeBean getSessionScopeBean() {
+		return sessionScopeBean;
+	}
+
+	public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
+		this.sessionScopeBean = sessionScopeBean;
 	}
 
 	

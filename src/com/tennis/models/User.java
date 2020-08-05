@@ -19,7 +19,7 @@ public class User {
 	private String firstname;
 	private String lastname;
 	private String email;
-	private long phone_num;
+	private String phone_num;
 	private Role role;
 	@Transient
 	private String password;
@@ -62,10 +62,10 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public long getPhone_num() {
+	public String getPhone_num() {
 		return phone_num;
 	}
-	public void setPhone_num(long phone_num) {
+	public void setPhone_num(String phone_num) {
 		this.phone_num = phone_num;
 	}
 	@Override
