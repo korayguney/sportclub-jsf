@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<div align="center">
+		<h1>Admin Page</h1>
+		<h2>Game Operations</h2>
+		<br /><br />
+		<h3>Tournament : #{gameListBean.tournament.tour_name}</h3>
+		<br /><br />
+	</div>
+	<h:form>
+		<div align="center">
+			<p:button href="addgame.xhtml" value="Add Game" />
+		</div>
+		<br></br>
+		<br></br>
+
+		<p:dataTable value="#{gameListBean.games}" var="game"  widgetVar="gameTable">
+			
+			<f:facet name="header"> 
+				GAME LIST
+				 <p:inputText id="globalFilter" onkeyup="PF('gameTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+			</f:facet>
+			
+		
+			<p:column headerText="PLAYER 1" sortBy="#{game.playersOfGame.get(0)}" filterBy="#{game.playersOfGame.get(0).firstname}">
+				<h:outputText value="#{game.playersOfGame.get(0).firstname} #{game.playersOfGame.get(0).lastname}" />
+			</p:column>
+			<p:column headerText="PLAYER 2" sortBy="#{game.playersOfGame.get(1)}" filterBy="#{game.playersOfGame.get(1).firstname}">
+				<h:outputText value="#{game.playersOfGame.get(1).firstname} #{game.playersOfGame.get(1).lastname}" />
+			</p:column>
+			<p:column headerText="START DATE" sortBy="#{game.time}" filterBy="#{game.date}" style="width:150px;">
+				<h:outputText value="#{tournament.tour_start_date}" />
+			</p:column>
+			<p:column headerText="START HOUR" sortBy="#{game.time}" filterBy="#{game.time}" style="width:150px;">
+				<h:outputText value="#{tournament.tour_finish_date}" />
+			</p:column>
+			
+			<p:column headerText="MANAGE GAME">
+				
+				<p:button href="updategame.xhtml?gameId=#{game.id}" value="UPDATE"></p:button>
+				<p:commandButton value="DELETE" action="#{gameListBean.deleteGame(game)}" ajax="false"></p:commandButton>	
+				
+			</p:column>
+			
+			<f:facet name="footer"> 
+				There are #{gameListBean.games.size()} game(s) on the table.
+			</f:facet>
+
+		</p:dataTable>
+
+		<p:messages autoUpdate="true" showDetail="true"></p:messages>
+<p:button value="BACK" href="#{request.contextPath}/../secure/tournamentlist.xhtml" ></p:button>
+	</h:form>
+
+
+</h:body>
+
+</html>

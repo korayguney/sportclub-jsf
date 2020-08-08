@@ -15,7 +15,6 @@
 	<h:form>
 		<div align="center">
 			<p:button href="addtournament.xhtml" value="Add Tournament" />
-			<p:button href="assigngametotournament.xhtml" value="Assign Game to a Tournament" />
 		</div>
 		<br></br>
 		<br></br>
@@ -27,7 +26,7 @@
 				 <p:inputText id="globalFilter" onkeyup="PF('tournamentTable').filter()" style="width:150px" placeholder="Enter keyword"/>
 			</f:facet>
 			
-			<p:column headerText="ID" sortBy="#{tournament.id}" filterBy="#{tournament.id}">
+			<p:column headerText="ID" sortBy="#{tournament.id}" filterBy="#{tournament.id}" style="width:50px;">
 				<h:outputText value="#{tournament.id}" />
 			</p:column>
 			<p:column headerText="NAME" sortBy="#{tournament.tour_name}" filterBy="#{tournament.tour_name}">
@@ -36,17 +35,18 @@
 			<p:column headerText="PLACE" sortBy="#{tournament.tour_place}" filterBy="#{tournament.tour_place}">
 				<h:outputText value="#{tournament.tour_place}" />
 			</p:column>
-			<p:column headerText="START DATE" sortBy="#{tournament.tour_start_date}" filterBy="#{tournament.tour_start_date}">
+			<p:column headerText="START DATE" sortBy="#{tournament.tour_start_date}" filterBy="#{tournament.tour_start_date}" style="width:150px;">
 				<h:outputText value="#{tournament.tour_start_date}" />
 			</p:column>
-			<p:column headerText="FINISH DATE" sortBy="#{tournament.tour_finish_date}" filterBy="#{tournament.tour_finish_date}">
+			<p:column headerText="FINISH DATE" sortBy="#{tournament.tour_finish_date}" filterBy="#{tournament.tour_finish_date}" style="width:150px;">
 				<h:outputText value="#{tournament.tour_finish_date}" />
 			</p:column>
 			
 			<p:column headerText="MANAGE TOURNAMENT">
 				
-				<p:button href="updatetournament.xhtml?tournamnetId=#{tournament.id}" value="UPDATE"></p:button>
+				<p:button href="updatetournament.xhtml?tournamentId=#{tournament.id}" value="UPDATE"></p:button>
 				<p:commandButton value="DELETE" action="#{tournamentListBean.deleteTournament(tournament)}" ajax="false"></p:commandButton>	
+				<p:button href="gamelist.xhtml?tournamentId=#{tournament.id}" value="GAMES"></p:button>
 				
 			</p:column>
 			

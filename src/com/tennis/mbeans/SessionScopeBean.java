@@ -4,6 +4,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import com.tennis.models.Tournament;
 import com.tennis.models.User;
 
 @ManagedBean
@@ -11,6 +12,7 @@ import com.tennis.models.User;
 public class SessionScopeBean {
 	
 	private User user;
+	private Tournament tournament;
 
 	public User getUser() {
 		return user;
@@ -19,6 +21,15 @@ public class SessionScopeBean {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Tournament getTournament() {
+		return tournament;
+	}
+
+	public void setTournament(Tournament tournament) {
+		this.tournament = tournament;
+	}
+	
 	
 	
 	

@@ -54,8 +54,15 @@
 				<td><p:outputLabel>Password :</p:outputLabel></td>
 				<td><p:password value="#{register.user.password}"
 						required="true" requiredMessage="You cannot left empty!"
-						id="passw" /></td>
+						id="passw" match="passw2" validatorMessage="passwords must match" /></td>
 				<td><p:message for="passw" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Password (again) :</p:outputLabel></td>
+				<td><p:password value="#{register.user.password}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="passw2" /></td>
+				<td><p:message for="passw2" /></td>
 			</tr>
 			<tr>
 				<td><p:outputLabel>Role :</p:outputLabel></td>

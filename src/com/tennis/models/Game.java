@@ -1,8 +1,12 @@
 package com.tennis.models;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,10 +19,14 @@ public class Game {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int score;
-	private Date date;
+	private String score;
+	private LocalDate date;
+	private LocalTime time;
 	private String place;
 	private int court;
+	
+	@OneToMany (fetch = FetchType.EAGER)
+	private List<Player> playersOfGame = new ArrayList<Player>();
 	
 	@ManyToOne
 	private Tournament tournament;
@@ -30,17 +38,25 @@ public class Game {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getScore() {
+	
+	public String getScore() {
 		return score;
 	}
-	public void setScore(int score) {
+	public void setScore(String score) {
 		this.score = score;
 	}
-	public Date getDate() {
+	
+	public LocalDate getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+	public LocalTime getTime() {
+		return time;
+	}
+	public void setTime(LocalTime time) {
+		this.time = time;
 	}
 	public String getPlace() {
 		return place;
@@ -59,6 +75,12 @@ public class Game {
 	}
 	public void setTournament(Tournament tournament) {
 		this.tournament = tournament;
+	}
+	public List<Player> getPlayersOfGame() {
+		return playersOfGame;
+	}
+	public void setPlayersOfGame(List<Player> playersOfGame) {
+		this.playersOfGame = playersOfGame;
 	}
 	
 	

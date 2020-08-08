@@ -52,8 +52,6 @@ public class TournamentListBean {
 
 	private void convertStringDateToLocalDate() {
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-
 		LocalDate start_date = getTournament_start_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate finish_date = getTournament_finish_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
@@ -65,7 +63,7 @@ public class TournamentListBean {
 		tournamentService.deleteTournament(tournament);
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Succesfully deleted"));
-		return "secure/tournamentlist?faces-redirect=true";
+		return "#{request.contextPath}/../secure/tournamentlist?faces-redirect=true";
 	}
 
 	public List<Tournament> getTournaments() {
