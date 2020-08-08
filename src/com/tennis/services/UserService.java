@@ -54,5 +54,14 @@ public class UserService {
 		user = entityManager.find(User.class, user.getId());
 		entityManager.remove(user);
 	}
+	
+	public User getUser(int userId) {
+		User user = entityManager.find(User.class, userId);
+		return user;
+	}
+
+	public void updateUser(User user) {
+		entityManager.merge(user);
+	}
 
 }

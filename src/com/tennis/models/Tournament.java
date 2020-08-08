@@ -78,6 +78,12 @@ public class Tournament {
 		this.tour_finish_date = tour_finish_date;
 	}
 	
+	@Override
+	public String toString() {
+		return "Tournament [tour_name=" + tour_name + ", tour_place=" + tour_place + ", tour_start_date="
+				+ tour_start_date + ", tour_finish_date=" + tour_finish_date + "]";
+	}
+	
 	
 	
 	
