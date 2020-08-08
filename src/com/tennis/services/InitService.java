@@ -1,5 +1,7 @@
 package com.tennis.services;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -11,6 +13,7 @@ import com.tennis.models.Login;
 import com.tennis.models.Parent;
 import com.tennis.models.Player;
 import com.tennis.models.Role;
+import com.tennis.models.Tournament;
 import com.tennis.utils.HashAlgorithm;
 import com.tennis.utils.HashingUtils;
 import com.tennis.models.Player.Gender;
@@ -76,4 +79,26 @@ public class InitService {
 		}
 	}
 
+	public void saveInitilizedTournament() {
+		List<Tournament> tournaments = entityManager.createQuery("from Tournament", Tournament.class).getResultList();
+		if (tournaments.isEmpty()) {
+			Tournament tournament1 = new Tournament();
+			tournament1.setTour_name("Wimbledon");
+			tournament1.setTour_place("London/England");
+			tournament1.setTour_start_date(LocalDate.of(2020, Month.JUNE, 24));
+			tournament1.setTour_finish_date(LocalDate.of(2020, Month.JULY, 3));
+
+			Tournament tournament2 = new Tournament();
+			tournament2.setTour_name("US Open");
+			tournament2.setTour_place("San Francisco/USA");
+			tournament2.setTour_start_date(LocalDate.of(2020, Month.APRIL, 12));
+			tournament2.setTour_finish_date(LocalDate.of(2020, Month.APRIL, 23));
+
+			entityManager.persist(tournament1);
+			entityManager.persist(tournament2);
+		}
+
+	}
+
+	
 }

@@ -19,6 +19,7 @@ public class InitilizerListener implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent sce) {
 		
 		initService.saveInitilizedUser();
+		initService.saveInitilizedTournament();
 		
 	}
 
