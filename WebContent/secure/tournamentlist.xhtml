@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<br />
+	<br />
+	<br />
+
+	<div align="center">
+		<h1>TOURNAMENT OPERATIONS PAGE</h1>
+		<br />
+		<p:button href="addtournament.xhtml" value="Add Tournament" />
+	</div>
+	<br />
+	<br />
+	<h:form>
+		<p:dataTable value="#{tournamentListBean.tournaments}" var="tournament"
+			widgetVar="tournamentsTable">
+
+			<f:facet name="header"> 
+				TOURNAMENT LIST 
+				 <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()"
+					style="width:150px" placeholder="Enter keyword" />
+			</f:facet>
+
+			<p:column headerText="ID" sortBy="#{tournament.id}" style="width:30px;">
+				<h:outputText value="#{tournament.id}" />
+			</p:column>
+			<p:column headerText="NAME" sortBy="#{tournament.tour_name}"
+				filterBy="#{tournament.tour_name}">
+				<h:outputText value="#{tournament.tour_name}" />
+			</p:column>
+			<p:column headerText="PLACE" sortBy="#{tournament.tour_place}"
+				filterBy="#{tournament.tour_place}">
+				<h:outputText value="#{tournament.tour_place}" />
+			</p:column>
+			<p:column headerText="START DATE" sortBy="#{tournament.tour_start_date}"
+				filterBy="#{tournament.tour_start_date}">
+				<h:outputText value="#{tournament.tour_start_date}" />
+			</p:column>
+			<p:column headerText="FINISH DATE" sortBy="#{tournament.tour_finish_date}"
+				filterBy="#{tournament.tour_finish_date}">
+				<h:outputText value="#{tournament.tour_finish_date}" />
+			</p:column>
+			
+
+			<p:column headerText="MANAGE TOURNAMENT">
+
+				<p:button href="updatetournament.xhtml?tournamentId=#{tournament.id}" value="UPDATE"></p:button>
+				<p:commandButton value="DELETE"
+					action="#{tournamentListBean.deleteTournament(tournament)}" ajax="false"></p:commandButton>
+
+			</p:column>
+
+			<f:facet name="footer"> 
+				There are #{tournamentListBean.tournaments.size()} tournaments on the table.
+			</f:facet>
+
+		</p:dataTable>
+
+		<p:messages autoUpdate="true" showDetail="true"></p:messages>
+		<p:button value="BACK" href="main-admin.xhtml"></p:button>
+	</h:form>
+</body>
+</html>

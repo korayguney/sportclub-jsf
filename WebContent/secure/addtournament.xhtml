@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+<body>
+
+	<br />
+	<br />
+	<br />
+
+	<h1 align="center">TOURNAMENT ADDING PAGE</h1>
+	<hr />
+	<br />
+	<br />
+
+	<h:form>
+
+
+
+		<table align="center">
+			<tr>
+				<td><p:outputLabel>Name :</p:outputLabel></td>
+				<td><p:inputText
+						value="#{tournamentListBean.tournament.tour_name}" required="true"
+						requiredMessage="You cannot left empty!" id="tname" /></td>
+				<td><p:message for="tname" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Place :</p:outputLabel></td>
+				<td><p:inputText
+						value="#{tournamentListBean.tournament.tour_place}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="place" /></td>
+				<td><p:message for="place" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Start Date :</p:outputLabel></td>
+				<td><p:calendar id="sdate"
+						pattern="dd/MM/yyyy" value="#{tournamentListBean.tour_start_date}"
+						navigator="true" required="true" requiredMessage="Date is required">
+					</p:calendar></td>
+				<td><p:message for="sdate" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Finish Date:</p:outputLabel></td>
+				<td><p:calendar id="fdate"
+						pattern="dd/MM/yyyy" value="#{tournamentListBean.tour_finish_date}"
+						navigator="true" required="true" requiredMessage="Date is required">
+					</p:calendar></td>
+				<td><p:message for="fdate" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><p:commandButton
+						action="#{tournamentListBean.saveTournament()}" value="Save"
+						ajax="false" validateClient="true" /> 
+						<p:button value="Cancel" href="tournamentlist.xhtml" /></td>
+			</tr>
+		</table>
+		<p:messages showDetail="true" autoUpdate="true" />
+	</h:form>
+	<br />
+	<br />
+	<hr />
+
+
+</body>
+</html>
