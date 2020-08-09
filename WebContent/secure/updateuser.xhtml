@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h1 align="center">
+		Student Information System <br /> Update User Page
+	</h1>
+	<br />
+	<hr />
+	<h:form>
+		<table align="center">
+			<tr>
+				<td><p:outputLabel>First Name :</p:outputLabel></td>
+				<td><p:inputText value="#{updateUserBean.user.firstname}" required="true" requiredMessage="You cannot left empty!" id="fname"/></td>
+				<td><p:message for="fname"/> </td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Last Name :</p:outputLabel></td>
+				<td><p:inputText value="#{updateUserBean.user.lastname}" required="true" requiredMessage="You cannot left empty!" id="sname"/></td>
+				<td><p:message for="sname"/> </td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Email :</p:outputLabel></td>
+				<td><p:inputText value="#{updateUserBean.user.email}" required="true" requiredMessage="You cannot left empty!" id="email"/></td>
+				<td><p:message for="email"/> </td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Role :</p:outputLabel></td>
+				<td>
+					<p:selectOneMenu id="role" value="#{updateUserBean.user.role}" style="width: 220px" >
+						<f:selectItem itemLabel="Select One" itemValue=""/>
+						<f:selectItems value="#{updateUserBean.roles}" />
+					</p:selectOneMenu>	
+				</td>
+				<td><p:message for="role"/> </td>
+			</tr>
+			<tr>
+				<td><p:commandButton action="#{updateUserBean.updateUser()}" value="Update"  ajax="false"/></td>
+				<td><p:button value="Cancel" href="userlist.xhtml" /></td>
+			</tr>
+		</table>
+		<p:messages showDetail="true" autoUpdate="true" />
+	</h:form>
+	<br />
+	<hr />
+</body>
+</html>
