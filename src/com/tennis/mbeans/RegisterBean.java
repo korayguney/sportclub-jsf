@@ -19,6 +19,8 @@ import javax.faces.model.SelectItem;
 import org.primefaces.event.SelectEvent;
 
 import com.tennis.exceptions.EmailIsAlreadyExistException;
+import com.tennis.models.Admin;
+import com.tennis.models.Parent;
 import com.tennis.models.Player;
 import com.tennis.models.Role;
 import com.tennis.models.User;
@@ -30,6 +32,8 @@ public class RegisterBean {
 
 	private User user;
 	private Player player;
+	private Admin admin;
+	private Parent parent;
 	private List<SelectItem> roles;
 	private List<SelectItem> genders;
 	private boolean disableAge;
@@ -41,7 +45,8 @@ public class RegisterBean {
 		user = new User();
 		
 		player = new Player();
-		
+		admin = new Admin();
+		parent = new Parent();
 		roles = new ArrayList<SelectItem>();
 		roles.add(new SelectItem(Role.ADMIN));
 		roles.add(new SelectItem(Role.PARENT));
@@ -63,8 +68,11 @@ public class RegisterBean {
 		try {
 			if(this.user.getRole().equals(Role.PLAYER)) {
 				userService.saveUser(this.player);
+			}else if(this.user.getRole().equals(Role.PARENT)) {
+				userService.saveUser(this.parent);
+			}else if(this.user.getRole().equals(Role.ADMIN)) {
+				userService.saveUser(this.admin);
 			}
-				
 			
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "", "User is saved "));
@@ -83,6 +91,7 @@ public class RegisterBean {
 			this.player.setLastname(user.getLastname());
 			this.player.setEmail(user.getEmail());
 			this.player.setPhone_num(user.getPassword());
+			this.player.setPassword(user.getPassword());
 			this.player.setBirthdate(convertDateToLocaldate());
 			this.player.setAge(calculateAge());
 			this.player.setFirstname(user.getFirstname());
@@ -175,6 +184,22 @@ public class RegisterBean {
 
 	public void setPlayer_birthdate(Date player_birthdate) {
 		this.player_birthdate = player_birthdate;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	public Parent getParent() {
+		return parent;
+	}
+
+	public void setParent(Parent parent) {
+		this.parent = parent;
 	}
 
 	
