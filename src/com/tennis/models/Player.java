@@ -1,5 +1,6 @@
 package com.tennis.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Player extends User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int age;
+	private LocalDate birthdate;
 	private Gender gender;
 
 	@ManyToMany
@@ -69,4 +71,14 @@ public class Player extends User {
 		this.tournaments = tournaments;
 	}
 
+	public LocalDate getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(LocalDate birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	
+	
 }
