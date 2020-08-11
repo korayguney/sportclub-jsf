@@ -1,7 +1,9 @@
 package com.tennis.services;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -9,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.tennis.models.Admin;
+import com.tennis.models.Game;
 import com.tennis.models.Login;
 import com.tennis.models.Parent;
 import com.tennis.models.Player;
@@ -24,6 +27,10 @@ public class InitService {
 	@PersistenceContext
 	EntityManager entityManager;
 
+	
+	List<Player> playerOfTheGames = new ArrayList<Player>();
+	 
+	
 	public void saveInitilizedUser() {
 
 		List<Player> players = entityManager.createQuery("from Player", Player.class).getResultList();
@@ -43,7 +50,19 @@ public class InitService {
 			
 			Login login1 = new Login(player.getEmail(),player.getPassword(), Role.PLAYER);
 			
+			Player player2 = new Player();
+			player2.setFirstname("Serena");
+			player2.setLastname("Williams");
+			player2.setAge(18);
+			player2.setEmail("serena@gmail.com");
+			player2.setGender(Gender.FEMALE);
+			player2.setPhone_num("5555555555");
+			player2.setPassword(HashingUtils.hashPassword("1234", HashAlgorithm.SHA256).toString());
+			player2.setRole(Role.PLAYER);
 
+			Login login4 = new Login(player2.getEmail(),player2.getPassword(), Role.PLAYER);
+
+			
 			Parent parent = new Parent();
 			parent.setFirstname("Serhan");
 			parent.setLastname("Capar");
@@ -68,6 +87,7 @@ public class InitService {
 
 			
 			entityManager.persist(player);
+			entityManager.persist(player2);
 			entityManager.persist(parent);
 			entityManager.persist(admin);
 			
@@ -75,7 +95,12 @@ public class InitService {
 			entityManager.persist(login1);
 			entityManager.persist(login2);
 			entityManager.persist(login3);
-
+			entityManager.persist(login4);
+			
+			this.playerOfTheGames.add(player);
+			this.playerOfTheGames.add(player2);
+			
+			
 		}
 	}
 	
@@ -99,6 +124,15 @@ public class InitService {
 			
 			entityManager.persist(tournament1);
 			entityManager.persist(tournament2);
+			
+			Game game = new Game();
+			game.setTournament(tournament1);
+			game.setCourt(1);
+			game.setDate(LocalDate.of(2020, Month.JUNE, 22));
+			game.setTime(LocalTime.of(15, 30));
+			game.setPlayersOfTheGame(this.playerOfTheGames);
+			
+			entityManager.persist(game);
 			
 		}
 		

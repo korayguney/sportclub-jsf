@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+<body>
+
+	<br />
+	<br />
+	<br />
+
+	<h1 align="center">GAME ADDING PAGE</h1>
+	<hr />
+	<br />
+	<br />
+	<h3>Tournament : #{gameListBean.tournament.tour_name}</h3>
+	<br />
+	<br />
+
+	<h:form>
+
+
+
+		<table align="center">
+
+			<tr>
+				<td><p:outputLabel>Player 1 :</p:outputLabel></td>
+				<td><p:selectOneMenu id="player1" value="#{userListBean.players}"
+						style="width: 220px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItems value="#{userListBean.players}" />
+					</p:selectOneMenu></td>
+				<td><p:message for="player1" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Player 2 :</p:outputLabel></td>
+				<td><p:selectOneMenu id="player2" value="#{userListBean.players}"
+						style="width: 220px">
+						<f:selectItem itemLabel="Select One" itemValue="" />
+						<f:selectItems value="#{userListBean.players}" />
+					</p:selectOneMenu></td>
+				<td><p:message for="player2" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Start Date:</p:outputLabel></td>
+				<td><p:calendar id="sdate" pattern="dd/MM/yyyy"
+						value="#{gameListBean.game.date}" navigator="true"
+						required="true" requiredMessage="Date is required">
+					</p:calendar></td>
+				<td><p:message for="sdate" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Start Time:</p:outputLabel></td>
+				<td><p:calendar id="stime" 
+						value="#{gameListBean.game.time}" navigator="true"
+						required="true" requiredMessage="Time is required">
+					</p:calendar></td>
+				<td><p:message for="stime" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Court Number :</p:outputLabel></td>
+				<td><p:inputText value="#{gameListBean.game.court}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="court" /></td>
+				<td><p:message for="court" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><p:commandButton
+						action="#{gameListBean.saveGame()}" value="Save"
+						ajax="false" validateClient="true" /> <p:button value="Cancel"
+						href="gamelist.xhtml" /></td>
+			</tr>
+		</table>
+		<p:messages showDetail="true" autoUpdate="true" />
+	</h:form>
+	<br />
+	<br />
+	<hr />
+
+
+</body>
+</html>

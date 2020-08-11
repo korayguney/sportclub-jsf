@@ -20,8 +20,8 @@
 	<br />
 	<br />
 	<h:form>
-		<p:dataTable value="#{tournamentListBean.tournaments}" var="tournament"
-			widgetVar="tournamentsTable">
+		<p:dataTable value="#{tournamentListBean.tournaments}"
+			var="tournament" widgetVar="tournamentsTable">
 
 			<f:facet name="header"> 
 				TOURNAMENT LIST 
@@ -29,7 +29,8 @@
 					style="width:150px" placeholder="Enter keyword" />
 			</f:facet>
 
-			<p:column headerText="ID" sortBy="#{tournament.id}" style="width:30px;">
+			<p:column headerText="ID" sortBy="#{tournament.id}"
+				style="width:30px;">
 				<h:outputText value="#{tournament.id}" />
 			</p:column>
 			<p:column headerText="NAME" sortBy="#{tournament.tour_name}"
@@ -40,22 +41,29 @@
 				filterBy="#{tournament.tour_place}">
 				<h:outputText value="#{tournament.tour_place}" />
 			</p:column>
-			<p:column headerText="START DATE" sortBy="#{tournament.tour_start_date}"
+			<p:column headerText="START DATE"
+				sortBy="#{tournament.tour_start_date}"
 				filterBy="#{tournament.tour_start_date}">
 				<h:outputText value="#{tournament.tour_start_date}" />
 			</p:column>
-			<p:column headerText="FINISH DATE" sortBy="#{tournament.tour_finish_date}"
+			<p:column headerText="FINISH DATE"
+				sortBy="#{tournament.tour_finish_date}"
 				filterBy="#{tournament.tour_finish_date}">
 				<h:outputText value="#{tournament.tour_finish_date}" />
 			</p:column>
-			
 
-			<p:column headerText="MANAGE TOURNAMENT">
 
-				<p:button href="updatetournament.xhtml?tournamentId=#{tournament.id}" value="UPDATE"></p:button>
+			<p:column headerText="MANAGE TOURNAMENT" style="width:350px;">
+
+				<p:button
+					href="updatetournament.xhtml?tournamentId=#{tournament.id}"
+					value="UPDATE"></p:button>
 				<p:commandButton value="DELETE"
-					action="#{tournamentListBean.deleteTournament(tournament)}" ajax="false"></p:commandButton>
-
+					action="#{tournamentListBean.deleteTournament(tournament)}"
+					ajax="false"></p:commandButton>
+				<p:button
+					href="gamelist.xhtml?tournamentId=#{tournament.id}"
+					value="GAMES"></p:button>
 			</p:column>
 
 			<f:facet name="footer"> 

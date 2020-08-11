@@ -30,23 +30,16 @@ public class TournamentService {
 
 	}
 
-	private void saveToLogin(User user) {
-		Login login = new Login(user.getEmail(),
-				HashingUtils.hashPassword(user.getPassword(), HashAlgorithm.SHA256).toString(), user.getRole());
-		entityManager.persist(login);
-	}
-
-	private List<User> checkUserExists(String email) throws EmailIsAlreadyExistException {
-		List<User> checkedResult = entityManager
-				.createQuery("select e from User e where e.email =:emailOfUser ", User.class)
-				.setParameter("emailOfUser", email).getResultList();
-
-		return checkedResult;
-	}
-
 	public void deleteTournament(Tournament tournament) {
 		tournament = entityManager.find(Tournament.class, tournament.getId());
 		entityManager.remove(tournament);
+	}
+
+	public Tournament getTournament(int tournamentId) {
+		
+		Tournament tournament = entityManager.find(Tournament.class, tournamentId);
+		
+		return tournament;
 	}
 
 }

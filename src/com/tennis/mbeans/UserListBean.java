@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import com.tennis.models.Player;
 import com.tennis.models.User;
 import com.tennis.services.UserService;
 
@@ -17,6 +18,7 @@ import com.tennis.services.UserService;
 public class UserListBean {
 
 	private List<User> users;
+	private List<Player> players;
 	
 	@EJB
 	private UserService userService;
@@ -24,7 +26,7 @@ public class UserListBean {
 	@PostConstruct
 	public void init() {
 		users = userService.getAllUsers();
-		
+		players = userService.getAllPlayers();
 	}
 	
 	public String deleteUser(User user) {
@@ -48,6 +50,14 @@ public class UserListBean {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
 	}
 	
 	

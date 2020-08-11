@@ -68,10 +68,10 @@ public class User {
 	public void setPhone_num(String phone_num) {
 		this.phone_num = phone_num;
 	}
+	
 	@Override
 	public String toString() {
-		return "User [firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", phone_num="
-				+ phone_num + ", role=" + role + "]";
+		return firstname+ " " + lastname;
 	}
 	
 	
