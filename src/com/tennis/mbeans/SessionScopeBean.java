@@ -13,7 +13,7 @@ public class SessionScopeBean {
 	
 	private User user;
 	private Tournament tournament;
-
+	
 	public User getUser() {
 		return user;
 	}
@@ -29,10 +29,6 @@ public class SessionScopeBean {
 	public void setTournament(Tournament tournament) {
 		this.tournament = tournament;
 	}
-	
-	
-	
-	
-	
+
 	
 }
