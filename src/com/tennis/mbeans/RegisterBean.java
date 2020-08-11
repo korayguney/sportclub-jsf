@@ -80,11 +80,9 @@ public class RegisterBean {
 			this.player.setEmail(user.getEmail());
 			this.player.setPassword(user.getPassword());
 			this.player.setPhone_num(user.getPhone_num());
-			this.player.setLastname(user.getLastname());
 			this.player.setGender(Gender.FEMALE);
 			LocalDate birthdate = getPlayer_birthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			this.player.setBirthdate(birthdate);
-			this.player.setAge(calculateAge());
 			this.player.setAge(calculateAge());
 
 		}
