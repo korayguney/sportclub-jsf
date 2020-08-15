@@ -17,6 +17,7 @@ import com.tennis.models.Parent;
 import com.tennis.models.Player;
 import com.tennis.models.Role;
 import com.tennis.models.Tournament;
+import com.tennis.models.Game.GameStatus;
 import com.tennis.utils.HashAlgorithm;
 import com.tennis.utils.HashingUtils;
 import com.tennis.models.Player.Gender;
@@ -121,7 +122,10 @@ public class InitService {
 			game1.setCourt(1);
 			game1.setDate(LocalDate.of(2020, Month.NOVEMBER, 13));
 			game1.setTime(LocalTime.of(12, 30));
-			game1.setPlayersOfGame(this.playersOfTournament1);
+			//game1.setPlayersOfGame(this.playersOfTournament1);
+			game1.setPlayer1(this.playersOfTournament1.get(0));
+			game1.setPlayer2(this.playersOfTournament1.get(1));
+			game1.setGameStatus(GameStatus.NOT_PLAYED_YET);
 			
 			entityManager.persist(game1);
 						

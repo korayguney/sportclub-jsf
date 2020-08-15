@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Game {
@@ -19,18 +21,27 @@ public class Game {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String score;
+	private String score1;
+	private String score2;
 	private LocalDate date;
 	private LocalTime time;
 	private String place;
 	private int court;
+	private GameStatus gameStatus;
 	
-	@OneToMany (fetch = FetchType.EAGER)
-	private List<Player> playersOfGame = new ArrayList<Player>();
+//	@OneToMany (fetch = FetchType.EAGER)
+//	private List<Player> playersOfGame = new ArrayList<Player>();
+	@OneToOne
+	private Player player1;
+	@OneToOne
+	private Player player2;
 	
-	@ManyToOne
+	@ManyToOne (cascade = CascadeType.MERGE)
 	private Tournament tournament;
 	
+	public enum GameStatus {
+		NOT_PLAYED_YET, NOW_PLAYING, FINISHED;
+	}
 	
 	public int getId() {
 		return id;
@@ -39,11 +50,18 @@ public class Game {
 		this.id = id;
 	}
 	
-	public String getScore() {
-		return score;
+	public String getScore1() {
+		return score1;
 	}
-	public void setScore(String score) {
-		this.score = score;
+	public void setScore1(String score1) {
+		this.score1 = score1;
+	}
+	
+	public String getScore2() {
+		return score2;
+	}
+	public void setScore2(String score2) {
+		this.score2 = score2;
 	}
 	
 	public LocalDate getDate() {
@@ -76,13 +94,35 @@ public class Game {
 	public void setTournament(Tournament tournament) {
 		this.tournament = tournament;
 	}
-	public List<Player> getPlayersOfGame() {
-		return playersOfGame;
+	public Player getPlayer1() {
+		return player1;
 	}
-	public void setPlayersOfGame(List<Player> playersOfGame) {
-		this.playersOfGame = playersOfGame;
+	public void setPlayer1(Player player1) {
+		this.player1 = player1;
+	}
+	public Player getPlayer2() {
+		return player2;
+	}
+	public void setPlayer2(Player player2) {
+		this.player2 = player2;
 	}
 	
+	public GameStatus getGameStatus() {
+		return gameStatus;
+	}
+	public void setGameStatus(GameStatus gameStatus) {
+		this.gameStatus = gameStatus;
+	}
+	@Override
+	public String toString() {
+		return "Game [id=" + id + ", score=" + score1+ "-" +score2 + ", date=" + date + ", time=" + time + ", place=" + place
+				+ ", court=" + court + ", player1=" + player1 + ", player2=" + player2 + ", tournament=" + tournament
+				+ "]";
+	}
+	
+	
+
+
 	
 	
 	

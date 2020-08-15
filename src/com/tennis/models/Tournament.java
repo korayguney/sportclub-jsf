@@ -80,7 +80,7 @@ public class Tournament {
 	
 	@Override
 	public String toString() {
-		return "Tournament [tour_name=" + tour_name + ", tour_place=" + tour_place + ", tour_start_date="
+		return "Tournament [tour_id=" + id +", tour_name=" + tour_name + ", tour_place=" + tour_place + ", tour_start_date="
 				+ tour_start_date + ", tour_finish_date=" + tour_finish_date + "]";
 	}
 	

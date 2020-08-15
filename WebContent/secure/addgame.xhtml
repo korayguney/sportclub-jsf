@@ -18,40 +18,67 @@
 	<hr />
 	<br />
 	<br />
-	<h3>Tournament : #{tournamentListBean.tournament.tour_name}</h3>
+	<h3 align="center">Tournament :
+		#{sessionScopeBean.tournament.tour_name}</h3>
 	<br />
+	<br />
+	<hr />
 
-
+	<br />
+	<br />
 	<h:form>
 
 
 
 		<table align="center">
-			
+
 			<tr>
-				<td><p:outputLabel>Date :</p:outputLabel></td>
+				<td><p:outputLabel>Player 1 :</p:outputLabel></td>
+				<td><p:selectOneMenu id="player_1"
+						value="#{gameListBean.player1id}" style="width: 220px">
+						<f:selectItems value="#{gameListBean.players}" var="player1"
+							itemLabel="#{player1.firstname} #{player1.lastname}"
+							itemValue="#{player1.id}" />
+					</p:selectOneMenu></td>
+				<td><p:message for="player_1" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Player 2 :</p:outputLabel></td>
+				<td><p:selectOneMenu id="player_2"
+						value="#{gameListBean.player2id}" style="width: 220px">
+						<f:selectItems value="#{gameListBean.players}" var="player2"
+							itemLabel="#{player2.firstname} #{player2.lastname}"
+							itemValue="#{player2.id}" />
+					</p:selectOneMenu></td>
+				<td><p:message for="player_2" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Start Date:</p:outputLabel></td>
 				<td><p:calendar id="sdate" pattern="dd/MM/yyyy"
-						value="#{tournamentListBean.tournament_start_date}"
-						navigator="true" required="true"
+						value="#{gameListBean.gamedate}" navigator="true" required="true"
 						requiredMessage="Date is required">
 					</p:calendar></td>
 				<td><p:message for="sdate" /></td>
 			</tr>
 			<tr>
-				<td><p:outputLabel>Hour :</p:outputLabel></td>
-				<td><p:calendar id="fdate" pattern="dd/MM/yyyy"
-						value="#{tournamentListBean.tournament_finish_date}"
-						navigator="true" required="true"
-						requiredMessage="Date is required">
-					</p:calendar></td>
-				<td><p:message for="fdate" /></td>
+				<td><p:outputLabel>Start Time:</p:outputLabel></td>
+				<td><p:inputMask value="#{gameListBean.gamehour}"
+						required="true" requiredMessage="You cannot left empty!"
+						id="stime" mask="99:99" /></td>
+				<td><p:message for="stime" /></td>
+			</tr>
+			<tr>
+				<td><p:outputLabel>Court Number :</p:outputLabel></td>
+				<td><p:inputText value="#{gameListBean.game.court}"
+						required="true" requiredMessage="You cannot left empty!" id="co" /></td>
+				<td><p:message for="co" /></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td><p:commandButton
-						action="#{tournamentListBean.saveTournament()}" value="Save"
-						ajax="false" validateClient="true" /> <p:button value="Cancel"
-						href="tournamentlist.xhtml" /></td>
+						action="#{gameListBean.saveGame(gameListBean.player1id, gameListBean.player2id)}"
+						value="Save" ajax="false" validateClient="true" /> <p:button
+						value="Cancel" href="gamelist.xhtml?tournamentId=#{sessionScopeBean.tournament.id}" /></td>
 			</tr>
 		</table>
 		<p:messages showDetail="true" autoUpdate="true" />
@@ -59,6 +86,7 @@
 	<br />
 	<br />
 	<hr />
+
 
 
 </body>

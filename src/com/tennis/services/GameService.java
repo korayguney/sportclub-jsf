@@ -39,6 +39,7 @@ public class GameService {
 	}
 
 	public void saveGame(Game game) {
+		System.out.println("SERVICE saveGame --> "+ game);
 
 		entityManager.persist(game);
 	}

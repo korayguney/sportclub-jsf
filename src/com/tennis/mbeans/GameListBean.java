@@ -1,8 +1,7 @@
 package com.tennis.mbeans;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,15 +10,17 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 
 import com.tennis.models.Game;
-import com.tennis.models.Role;
+import com.tennis.models.Player;
 import com.tennis.models.Tournament;
+import com.tennis.models.Game.GameStatus;
 import com.tennis.services.GameService;
 import com.tennis.services.TournamentService;
+import com.tennis.services.UserService;
 
 @ManagedBean
 public class GameListBean {
@@ -27,30 +28,75 @@ public class GameListBean {
 	private Game game;
 	private Tournament tournament;
 	private List<Game> games;
+	private String gamehour;
+	private List<Player> players;
+	private Date gamedate;
+	private Player player1;
+	private Player player2;
+	private int player1id;
+	private int player2id;
+
 
 	@EJB
 	GameService gameService;
 
 	@EJB
 	TournamentService tournamentService;
+	
+	@EJB
+	UserService userService;
+	
+	@ManagedProperty(value = "#{sessionScopeBean}")
+	SessionScopeBean sessionScopeBean;
 
 	@PostConstruct
 	public void init() {
 		tournament = new Tournament();
+		players = userService.getAllPlayers();
+		game = new Game();
+		
+		try {
+			HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+					.getRequest();
+			int tournamentId = Integer.parseInt(req.getParameter("tournamentId"));
+			tournament = tournamentService.getTournament(tournamentId);
+			sessionScopeBean.setTournament(tournament);
+			games = gameService.getAllGames(this.tournament);
+		} catch (Exception e) {
+			System.out.println("Inside catch init() of GameListBean");
+		}
 
-		HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-				.getRequest();
-		int tournamentId = Integer.parseInt(req.getParameter("tournamentId"));
-		tournament = tournamentService.getTournament(tournamentId);
 		
-		System.out.println("Tournament is taken init : " + tournament.getTour_name());
-		
-		games = gameService.getAllGames(this.tournament);
 
 	}
 
-	public String saveGame() {
-		this.game.setTournament(this.tournament);
+	public String saveGame(int player1id, int player2id) {
+		
+		System.out.println("Player1 id: " + player1id + " , Player2 id: " + player2id);
+		
+		this.game.setDate(getGamedate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		this.game.setTime(LocalTime.parse(gamehour));
+		
+		this.player1id = player1id;
+		this.player2id = player2id;
+		
+		this.player1 = userService.getPlayer(this.player1id);
+		this.player2 = userService.getPlayer(this.player2id);
+		
+		System.out.println("Player1 : " + player1 + " , Player2: " + player2);
+
+		
+//		List<Player> selectedPlayer = new ArrayList<>();
+//		selectedPlayer.add(player1);
+//		selectedPlayer.add(player2);
+		
+		//this.game.setPlayersOfGame(selectedPlayer);
+		 
+		this.game.setPlayer1(player1); 
+		this.game.setPlayer2(player2);
+		this.game.setPlace(sessionScopeBean.getTournament().getTour_place());
+		this.game.setTournament(sessionScopeBean.getTournament());
+		this.game.setGameStatus(GameStatus.NOT_PLAYED_YET);
 		gameService.saveGame(this.game);
 
 		FacesContext.getCurrentInstance().addMessage(null,
@@ -59,8 +105,6 @@ public class GameListBean {
 		return "secure/addgame";
 
 	}
-
-	
 
 	public String deleteGame(Game game) {
 		gameService.deleteGame(game);
@@ -101,4 +145,85 @@ public class GameListBean {
 		this.gameService = gameService;
 	}
 
+	public String getGamehour() {
+		return gamehour;
+	}
+
+	public void setGamehour(String gamehour) {
+		this.gamehour = gamehour;
+	}
+
+	public TournamentService getTournamentService() {
+		return tournamentService;
+	}
+
+	public void setTournamentService(TournamentService tournamentService) {
+		this.tournamentService = tournamentService;
+	}
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
+
+	public Player getPlayer1() {
+		return player1;
+	}
+
+	public void setPlayer1(Player player1) {
+		this.player1 = player1;
+	}
+
+	public Player getPlayer2() {
+		return player2;
+	}
+
+	public void setPlayer2(Player player2) {
+		this.player2 = player2;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public int getPlayer1id() {
+		return player1id;
+	}
+
+	public void setPlayer1id(int player1id) {
+		this.player1id = player1id;
+	}
+
+	public int getPlayer2id() {
+		return player2id;
+	}
+
+	public void setPlayer2id(int player2id) {
+		this.player2id = player2id;
+	}
+
+	public Date getGamedate() {
+		return gamedate;
+	}
+
+	public void setGamedate(Date gamedate) {
+		this.gamedate = gamedate;
+	}
+
+	public SessionScopeBean getSessionScopeBean() {
+		return sessionScopeBean;
+	}
+
+	public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
+		this.sessionScopeBean = sessionScopeBean;
+	}
+	
+	
 }

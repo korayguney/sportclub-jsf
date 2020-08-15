@@ -1,7 +1,5 @@
 package com.tennis.mbeans;
 
-import java.nio.file.attribute.UserPrincipalLookupService;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import com.tennis.models.Player;
 import com.tennis.models.User;
 import com.tennis.services.UserService;
 
@@ -17,6 +16,7 @@ import com.tennis.services.UserService;
 public class UserListBean {
 
 	private List<User> users;
+
 	
 	@EJB
 	private UserService userService;
@@ -24,7 +24,6 @@ public class UserListBean {
 	@PostConstruct
 	public void init() {
 		users = userService.getAllUsers();
-		
 	}
 	
 	public String deleteUser(User user) {

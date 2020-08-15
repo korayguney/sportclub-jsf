@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import com.tennis.exceptions.EmailIsAlreadyExistException;
 import com.tennis.models.Login;
+import com.tennis.models.Player;
 import com.tennis.models.User;
 import com.tennis.utils.HashAlgorithm;
 import com.tennis.utils.HashingUtils;
@@ -62,6 +63,15 @@ public class UserService {
 
 	public void updateUser(User user) {
 		entityManager.merge(user);
+	}
+
+	public List<Player> getAllPlayers() {
+		List<Player> players = entityManager.createQuery("from Player p", Player.class).getResultList();
+		return players;
+	}
+
+	public Player getPlayer(int player1id) {
+		return entityManager.find(Player.class, player1id);
 	}
 
 }

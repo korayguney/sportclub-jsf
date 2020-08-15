@@ -79,6 +79,11 @@ public class Player extends User {
 		this.birthdate = birthdate;
 	}
 
+	@Override
+	public String toString() {
+		return super.getFirstname() + " " +super.getLastname();
+	}
+
 	
 	
 }

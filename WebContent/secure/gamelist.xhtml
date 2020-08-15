@@ -30,23 +30,27 @@
 			</f:facet>
 			
 		
-			<p:column headerText="PLAYER 1" sortBy="#{game.playersOfGame.get(0)}" filterBy="#{game.playersOfGame.get(0).firstname}">
-				<h:outputText value="#{game.playersOfGame.get(0).firstname} #{game.playersOfGame.get(0).lastname}" />
+			<p:column headerText="PLAYER 1" >
+				<h:outputText value="#{game.player1.firstname} #{game.player1.lastname}" />
 			</p:column>
-			<p:column headerText="PLAYER 2" sortBy="#{game.playersOfGame.get(1)}" filterBy="#{game.playersOfGame.get(1).firstname}">
-				<h:outputText value="#{game.playersOfGame.get(1).firstname} #{game.playersOfGame.get(1).lastname}" />
+			<p:column headerText="PLAYER 2">
+				<h:outputText value="#{game.player2.firstname} #{game.player2.lastname}" />
 			</p:column>
-			<p:column headerText="START DATE" sortBy="#{game.time}" filterBy="#{game.date}" style="width:150px;">
-				<h:outputText value="#{tournament.tour_start_date}" />
+			<p:column headerText="SCORE" style="width:60px;">
+				<h:outputText value="#{game.score1} - #{game.score2}" />
+			</p:column>
+			<p:column headerText="START DATE" sortBy="#{game.date}" filterBy="#{game.date}" style="width:150px;">
+				<h:outputText value="#{game.date}" />
 			</p:column>
 			<p:column headerText="START HOUR" sortBy="#{game.time}" filterBy="#{game.time}" style="width:150px;">
-				<h:outputText value="#{tournament.tour_finish_date}" />
+				<h:outputText value="#{game.time}" />
 			</p:column>
 			
 			<p:column headerText="MANAGE GAME">
 				
 				<p:button href="updategame.xhtml?gameId=#{game.id}" value="UPDATE"></p:button>
-				<p:commandButton value="DELETE" action="#{gameListBean.deleteGame(game)}" ajax="false"></p:commandButton>	
+				<p:commandButton value="DELETE" action="#{gameListBean.deleteGame(game)}" ajax="false"></p:commandButton>
+				<p:button href="scoregame.xhtml?gameId=#{game.id}" value="SCORE GAME"></p:button>	
 				
 			</p:column>
 			
