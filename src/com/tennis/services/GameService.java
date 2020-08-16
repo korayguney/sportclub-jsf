@@ -26,6 +26,9 @@ public class GameService {
 	public void deleteGame(Game game) {
 
 		game = entityManager.find(Game.class, game.getId());
+		
+		//game.setTournament(null);
+		
 		entityManager.remove(game);
 	}
 

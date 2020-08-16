@@ -16,6 +16,8 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 import com.tennis.exceptions.EmailIsAlreadyExistException;
+import com.tennis.models.Admin;
+import com.tennis.models.Parent;
 import com.tennis.models.Player;
 import com.tennis.models.Player.Gender;
 import com.tennis.models.Role;
@@ -27,6 +29,8 @@ public class RegisterBean {
 
 	private User user;
 	private Player player;
+	private Admin admin;
+	private Parent parent;
 	private Date player_birthdate;
 	private List<SelectItem> roles;
 	private List<SelectItem> genders;
@@ -36,10 +40,11 @@ public class RegisterBean {
 	public void init() {
 
 		disableAge = true;
-
 		user = new User();
 
 		player = new Player();
+		admin = new Admin();
+		parent = new Parent();
 
 		roles = new ArrayList<SelectItem>();
 		roles.add(new SelectItem(Role.ADMIN));
@@ -58,9 +63,12 @@ public class RegisterBean {
 		addDetailsAccordintToRole(this.user);
 
 		try {
-			if (user.getRole().equals(Role.PLAYER)) {
-
+			if (this.user.getRole().equals(Role.PLAYER)) {
 				userService.saveUser(this.player);
+			} else if (this.user.getRole().equals(Role.PARENT)) {
+				userService.saveUser(this.parent);
+			} else if (this.user.getRole().equals(Role.ADMIN)) {
+				userService.saveUser(this.admin);
 			}
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "", "User is saved "));
@@ -73,18 +81,31 @@ public class RegisterBean {
 	}
 
 	private void addDetailsAccordintToRole(User user) {
-		if (user.getRole().equals(Role.PLAYER)) {
+		if (this.user.getRole().equals(Role.PLAYER)) {
 
 			this.player.setFirstname(user.getFirstname());
 			this.player.setLastname(user.getLastname());
 			this.player.setEmail(user.getEmail());
+			this.player.setPhone_num(user.getPassword());
 			this.player.setPassword(user.getPassword());
-			this.player.setPhone_num(user.getPhone_num());
-			this.player.setGender(Gender.FEMALE);
-			LocalDate birthdate = getPlayer_birthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			this.player.setBirthdate(birthdate);
+			this.player.setBirthdate(convertDateToLocaldate());
 			this.player.setAge(calculateAge());
+			this.player.setRole(Role.PLAYER);
 
+		} else if (this.user.getRole().equals(Role.PARENT)) {
+			this.parent.setFirstname(user.getFirstname());
+			this.parent.setLastname(user.getLastname());
+			this.parent.setEmail(user.getEmail());
+			this.parent.setPhone_num(user.getPassword());
+			this.parent.setPassword(user.getPassword());
+			this.parent.setRole(Role.PARENT);
+		} else if (this.user.getRole().equals(Role.ADMIN)) {
+			this.admin.setFirstname(user.getFirstname());
+			this.admin.setLastname(user.getLastname());
+			this.admin.setEmail(user.getEmail());
+			this.admin.setPhone_num(user.getPassword());
+			this.admin.setPassword(user.getPassword());
+			this.admin.setRole(Role.ADMIN);
 		}
 	}
 
@@ -92,6 +113,11 @@ public class RegisterBean {
 		return Period.between(this.player.getBirthdate(), LocalDate.now()).getYears();
 	}
 
+	public LocalDate convertDateToLocaldate() {
+		LocalDate birthdate = getPlayer_birthdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		return birthdate;
+	}
+	
 	public void enableInputText(ValueChangeEvent event) {
 		System.out.println(event.getNewValue());
 		Role role = (Role) event.getNewValue();
@@ -166,6 +192,22 @@ public class RegisterBean {
 		this.genders = genders;
 	}
 
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
+	public Parent getParent() {
+		return parent;
+	}
+
+	public void setParent(Parent parent) {
+		this.parent = parent;
+	}
 	
 	
+
 }
