@@ -50,24 +50,24 @@
 						<span class="login100-form-title p-b-34"> Account Login </span>
 
 						Email : <br />
-						<p:inputText value="#{login.login.email}" required="true"
+						<p:inputText value="#{loginMBean.login.email}" required="true"
 							requiredMessage="You cannot left empty!" id="email" size="27" />
 						<p:message for="email" />
 
 						Password : <br />
 
-						<p:password value="#{login.login.password}" required="true"
+						<p:password value="#{loginMBean.login.password}" required="true"
 							requiredMessage="You cannot left empty!" id="passw" size="27" />
 						<p:message for="passw" />
 
 						<br />
 
-						<p:commandButton action="#{login.checkUser()}" value="Login"
+						<p:commandButton action="#{loginMBean.checkUser()}" value="Login"
 							class="login100-form-btn" />
 						<br />
 
 						<p:button value="Back" class="login100-form-btn"
-							href="./index.xhtml" />
+							href="./index3.xhtml" />
 
 						<p:messages showDetail="true" autoUpdate="true" />
 

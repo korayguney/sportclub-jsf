@@ -35,13 +35,13 @@
 					style="width:150px" placeholder="Enter keyword" />
 			</f:facet>
 
-			<p:column headerText="PLAYER 1" sortBy="#{game.playersOfTheGame.get(0)}"
-				filterBy="#{game.playersOfTheGame.get(0).firstname}">
-				<h:outputText value="#{game.playersOfTheGame.get(0).firstname} #{game.playersOfTheGame.get(0).lastname}" />
+			<p:column headerText="PLAYER 1" sortBy="#{game.player1.firstname}"
+				filterBy="#{game.player1.firstname}">
+				<h:outputText value="#{game.player1.firstname} #{game.player1.lastname}" />
 			</p:column>
-			<p:column headerText="PLAYER 2" sortBy="#{game.playersOfTheGame.get(1)}"
-				filterBy="#{game.playersOfTheGame.get(1).firstname}">
-				<h:outputText value="#{game.playersOfTheGame.get(1).firstname} #{game.playersOfTheGame.get(1).lastname}" />
+			<p:column headerText="PLAYER 2" sortBy="#{game.player2.firstname}"
+				filterBy="#{game.player1.firstname}">
+				<h:outputText value="#{game.player2.firstname} #{game.player2.lastname}" />
 			</p:column>
 			<p:column headerText="START DATE"
 				sortBy="#{game.date}"

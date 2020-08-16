@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import com.tennis.exceptions.EmailIsAlreadyExistException;
 import com.tennis.models.Game;
 import com.tennis.models.Login;
+import com.tennis.models.Player;
 import com.tennis.models.Tournament;
 import com.tennis.models.User;
 import com.tennis.utils.HashAlgorithm;
@@ -35,6 +36,10 @@ public class GameService {
 	public void deleteGame(Game game) {
 		game = entityManager.find(Game.class, game.getId());
 		entityManager.remove(game);
+	}
+
+	public Player findPlayer(int playerId) {
+		return entityManager.find(Player.class, playerId);
 	}
 
 }

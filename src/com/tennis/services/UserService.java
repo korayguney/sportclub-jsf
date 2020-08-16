@@ -62,6 +62,7 @@ public class UserService {
 
 		user = entityManager.find(User.class, user.getId());
 		entityManager.remove(user);
+		entityManager.createQuery("delete from Login l where l.email =:email").setParameter("email", user.getEmail()).executeUpdate();
 	}
 
 	public List<Player> getAllPlayers() {
@@ -74,8 +75,9 @@ public class UserService {
 		return user;
 	}
 
-	public void updateUser(User user) {
-		entityManager.merge(user);
+	public User updateUser(User user) {
+		User user1 = entityManager.merge(user);
+		return user1;
 	}
 
 }

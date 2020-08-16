@@ -18,7 +18,6 @@ import com.tennis.services.UserService;
 public class UserListBean {
 
 	private List<User> users;
-	private List<Player> players;
 	
 	@EJB
 	private UserService userService;
@@ -26,7 +25,6 @@ public class UserListBean {
 	@PostConstruct
 	public void init() {
 		users = userService.getAllUsers();
-		players = userService.getAllPlayers();
 	}
 	
 	public String deleteUser(User user) {
@@ -36,6 +34,11 @@ public class UserListBean {
 
 	}
 
+	public void sayHello(User user) {
+		System.out.println("Hello " + user.getFirstname());
+		 
+	}
+	
 	public List<User> getUsers() {
 		return users;
 	}
@@ -51,15 +54,6 @@ public class UserListBean {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-
-	public List<Player> getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
-	
 	
 	
 	

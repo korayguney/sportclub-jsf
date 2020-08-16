@@ -58,6 +58,8 @@
 				<p:button href="updateuser.xhtml?userId=#{user.id}" value="UPDATE"></p:button>
 				<p:commandButton value="DELETE"
 					action="#{userListBean.deleteUser(user)}" ajax="false"></p:commandButton>
+				<!-- p:commandButton value="HELLO"
+					action="#{userListBean.sayHello(user)}" ajax="false"></p:commandButton-->
 
 			</p:column>
 
@@ -68,7 +70,8 @@
 		</p:dataTable>
 
 		<p:messages autoUpdate="true" showDetail="true"></p:messages>
-		<p:button value="BACK" href="#{request.contextPath}/../main-admin.xhtml"></p:button>
+		<p:button value="BACK"
+			href="#{request.contextPath}/../secure/main-admin.xhtml"></p:button>
 	</h:form>
 </body>
 </html>

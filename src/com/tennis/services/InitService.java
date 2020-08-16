@@ -130,7 +130,9 @@ public class InitService {
 			game.setCourt(1);
 			game.setDate(LocalDate.of(2020, Month.JUNE, 22));
 			game.setTime(LocalTime.of(15, 30));
-			game.setPlayersOfTheGame(this.playerOfTheGames);
+			//game.setPlayersOfTheGame(this.playerOfTheGames);
+			game.setPlayer1(this.playerOfTheGames.get(0));
+			game.setPlayer2(this.playerOfTheGames.get(1));
 			
 			entityManager.persist(game);
 			
