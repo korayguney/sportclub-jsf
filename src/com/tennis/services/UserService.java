@@ -54,6 +54,8 @@ public class UserService {
 	public void deleteUser(User user) {
 		user = entityManager.find(User.class, user.getId());
 		entityManager.remove(user);
+		entityManager.createQuery("delete from Login l where l.email =:email")
+        .setParameter("email",  user.getEmail()).executeUpdate();
 	}
 	
 	public User getUser(int userId) {
