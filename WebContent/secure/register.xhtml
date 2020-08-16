@@ -68,19 +68,20 @@
 			<tr>
 				<td><p:outputLabel>Role :</p:outputLabel></td>
 				<td><p:selectOneMenu id="role" value="#{register.user.role}"
-						onchange="submit()"
+				style="width: 220px" >
+						<!-- onchange="submit()"
 						valueChangeListener="#{register.enableInputText}"
-						style="width: 220px">
+						 -->
 						<f:selectItem itemLabel="Select One" itemValue="" />
 						<f:selectItems value="#{register.roles}" />
-						<p:ajax listener="#{register.enableInputText}" />
+						<!-- p:ajax listener="#{register.enableInputText}" / -->
 					</p:selectOneMenu></td>
 				<td><p:message for="role" /></td>
 			</tr>
 			<tr>
 				<td><p:outputLabel>Birthdate :</p:outputLabel></td>
 				<td><p:calendar id="bdate" pattern="dd/MM/yyyy"
-						value="#{register.player_birthdate}" navigator="true">
+						value="#{register.player_birthdate}" navigator="true" required="true">
 					</p:calendar></td>
 				<td><p:message for="bdate" /></td>
 			</tr>
