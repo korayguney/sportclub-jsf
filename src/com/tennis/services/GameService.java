@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.tennis.models.Game;
+import com.tennis.models.Period;
 import com.tennis.models.Tournament;
 
 @Stateless
@@ -45,6 +46,15 @@ public class GameService {
 		System.out.println("SERVICE saveGame --> "+ game);
 
 		entityManager.persist(game);
+	}
+
+	public void submitScore(Game game) {
+		
+		entityManager.merge(game);
+	}
+
+	public void submitPeriod(Period period) {
+		entityManager.merge(period);
 	}
 
 }

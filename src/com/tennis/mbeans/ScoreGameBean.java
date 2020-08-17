@@ -5,12 +5,15 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.tennis.models.Game;
+import com.tennis.models.Period;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
 import com.tennis.services.GameService;
@@ -18,6 +21,7 @@ import com.tennis.services.TournamentService;
 import com.tennis.services.UserService;
 
 @ManagedBean
+@ViewScoped
 public class ScoreGameBean {
 
 	private Game game;
@@ -32,18 +36,19 @@ public class ScoreGameBean {
 
 	@EJB
 	TournamentService tournamentService;
-	
+
 	@EJB
 	UserService userService;
-	
+
 	@ManagedProperty(value = "#{sessionScopeBean}")
 	SessionScopeBean sessionScopeBean;
 
 	@PostConstruct
 	public void init() {
-		
+
 		players = userService.getAllPlayers();
-		
+		game = new Game();
+
 		try {
 			HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 					.getRequest();
@@ -55,11 +60,51 @@ public class ScoreGameBean {
 			System.out.println("Inside catch init() of ScoreGameBean");
 		}
 
-		
+	}
+
+	public void submitScore(int period, int score1, int score2) {
+
+		sessionScopeBean.getGame().setPeriod_number(period);
+		sessionScopeBean.getGame().setScore1(score1);
+		sessionScopeBean.getGame().setScore2(score2);
+		gameService.submitScore(sessionScopeBean.getGame());
+
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
 
 	}
 
+	public void submitPeriod(int period_no, int score1, int score2) {
 
+		Period period = new Period();
+		period.setPeriod_number(period_no);
+		period.setScore1(score1);
+		period.setScore2(score2);
+		period.setGame(sessionScopeBean.getGame());
+		gameService.submitPeriod(period);
+
+		Player winner = new Player();
+		
+		if(score1 > score2) {
+			winner=sessionScopeBean.getGame().getPlayer1();
+		} else {
+			winner=sessionScopeBean.getGame().getPlayer2();
+		}
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Period is submitted with scores"));
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Winner of the period : " + winner.getFirstname() + " " + winner.getLastname()));
+
+	}
+
+	public void submitGame(int score1, int score2) {
+
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
+
+	}
 
 	public Game getGame() {
 		return game;
@@ -140,6 +185,5 @@ public class ScoreGameBean {
 	public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
 		this.sessionScopeBean = sessionScopeBean;
 	}
-	
-	
+
 }

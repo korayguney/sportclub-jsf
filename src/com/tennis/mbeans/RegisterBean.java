@@ -86,7 +86,7 @@ public class RegisterBean {
 			this.player.setFirstname(user.getFirstname());
 			this.player.setLastname(user.getLastname());
 			this.player.setEmail(user.getEmail());
-			this.player.setPhone_num(user.getPassword());
+			this.player.setPhone_num(user.getPhone_num());
 			this.player.setPassword(user.getPassword());
 			this.player.setBirthdate(convertDateToLocaldate());
 			this.player.setAge(calculateAge());
@@ -96,14 +96,14 @@ public class RegisterBean {
 			this.parent.setFirstname(user.getFirstname());
 			this.parent.setLastname(user.getLastname());
 			this.parent.setEmail(user.getEmail());
-			this.parent.setPhone_num(user.getPassword());
+			this.parent.setPhone_num(user.getPhone_num());
 			this.parent.setPassword(user.getPassword());
 			this.parent.setRole(Role.PARENT);
 		} else if (this.user.getRole().equals(Role.ADMIN)) {
 			this.admin.setFirstname(user.getFirstname());
 			this.admin.setLastname(user.getLastname());
 			this.admin.setEmail(user.getEmail());
-			this.admin.setPhone_num(user.getPassword());
+			this.admin.setPhone_num(user.getPhone_num());
 			this.admin.setPassword(user.getPassword());
 			this.admin.setRole(Role.ADMIN);
 		}
