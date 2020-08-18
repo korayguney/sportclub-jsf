@@ -24,7 +24,8 @@ public class UpdateUserBean {
 
 	private User user;
 	private List<SelectItem> roles;
-
+	private String previousEmail;
+	
 	@EJB
 	UserService userService;
 
@@ -41,7 +42,7 @@ public class UpdateUserBean {
 				.getRequest();
 		int userId = Integer.parseInt(req.getParameter("userId"));
 		user = userService.getUser(userId);
-
+		previousEmail = user.getEmail();
 	}
 
 	public User getUser() {
@@ -49,7 +50,7 @@ public class UpdateUserBean {
 	}
 
 	public String updateUser() {
-		userService.updateUser(user);
+		userService.updateUser(user, this.previousEmail);
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "User is updated"));
 		return "secure/updateuser";
@@ -75,4 +76,13 @@ public class UpdateUserBean {
 		this.roles = roles;
 	}
 
+	public String getPreviousEmail() {
+		return previousEmail;
+	}
+
+	public void setPreviousEmail(String previousEmail) {
+		this.previousEmail = previousEmail;
+	}
+
+	
 }

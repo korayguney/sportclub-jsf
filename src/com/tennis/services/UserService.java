@@ -64,7 +64,10 @@ public class UserService {
 		return user;
 	}
 
-	public void updateUser(User user) {
+	public void updateUser(User user, String email) {
+		Login login = entityManager.createQuery("from Login l where l.email =:email", Login.class).setParameter("email", email).getSingleResult();
+		login.setEmail(email);
+		entityManager.merge(login);
 		entityManager.merge(user);
 	}
 
@@ -82,5 +85,6 @@ public class UserService {
 		System.out.println("CHILD OF PARENT : " + parent.getChild_player().getFirstname());
 		return parent.getChild_player();
 	}
+
 
 }
