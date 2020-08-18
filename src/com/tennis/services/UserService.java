@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import com.tennis.exceptions.EmailIsAlreadyExistException;
 import com.tennis.models.Login;
+import com.tennis.models.Parent;
 import com.tennis.models.Player;
 import com.tennis.models.User;
 import com.tennis.utils.HashAlgorithm;
@@ -74,6 +75,12 @@ public class UserService {
 
 	public Player getPlayer(int player1id) {
 		return entityManager.find(Player.class, player1id);
+	}
+
+	public Player getPlayerOfParent(User user) {
+		Parent parent = entityManager.createQuery("from Parent p where p.email =:email", Parent.class).setParameter("email", user.getEmail()).getSingleResult();
+		System.out.println("CHILD OF PARENT : " + parent.getChild_player().getFirstname());
+		return parent.getChild_player();
 	}
 
 }

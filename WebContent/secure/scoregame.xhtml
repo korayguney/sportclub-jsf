@@ -42,11 +42,13 @@ table, th, td {
 		<tr>
 			<td><p:outputLabel>Score</p:outputLabel></td>
 			<td><p:selectOneButton value="#{scoreGameBean.game.score1}">
+					<f:selectItem itemLabel="0" itemValue="0" />
 					<f:selectItem itemLabel="15" itemValue="15" />
 					<f:selectItem itemLabel="30" itemValue="30" />
 					<f:selectItem itemLabel="40" itemValue="40" />
 				</p:selectOneButton> </td>
 			<td><p:selectOneButton value="#{scoreGameBean.game.score2}">
+					<f:selectItem itemLabel="0" itemValue="0" />
 					<f:selectItem itemLabel="15" itemValue="15" />
 					<f:selectItem itemLabel="30" itemValue="30" />
 					<f:selectItem itemLabel="40" itemValue="40" />
@@ -58,7 +60,10 @@ table, th, td {
 					<f:selectItem itemLabel="4" itemValue="4" />
 					<f:selectItem itemLabel="5" itemValue="5" />
 				</p:selectOneButton></td>
-			<td><p:commandButton value="SUBMIT SCORE"
+			<td>
+				<p:commandButton value="START GAME"
+				action="#{scoreGameBean.startGame(scoreGameBean.game)}" ajax="false"></p:commandButton>
+				<p:commandButton value="SUBMIT SCORE"
 				action="#{scoreGameBean.submitScore(scoreGameBean.game.period_number,scoreGameBean.game.score1, scoreGameBean.game.score2)}"
 				ajax="false"></p:commandButton> <p:commandButton
 				value="SUBMIT PERIOD"

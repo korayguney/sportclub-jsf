@@ -16,6 +16,7 @@ import com.tennis.models.Game;
 import com.tennis.models.Period;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
+import com.tennis.models.Game.GameStatus;
 import com.tennis.services.GameService;
 import com.tennis.services.TournamentService;
 import com.tennis.services.UserService;
@@ -42,7 +43,7 @@ public class ScoreGameBean {
 
 	@ManagedProperty(value = "#{sessionScopeBean}")
 	SessionScopeBean sessionScopeBean;
-
+	
 	@PostConstruct
 	public void init() {
 
@@ -61,9 +62,18 @@ public class ScoreGameBean {
 		}
 
 	}
+	
+	public void startGame(Game game) {
+		this.game = game;
+		this.game.setGameStatus(GameStatus.NOW_PLAYING);
+		gameService.startGame(this.game);
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Game is started "));
+	}
 
 	public void submitScore(int period, int score1, int score2) {
-
+		
 		sessionScopeBean.getGame().setPeriod_number(period);
 		sessionScopeBean.getGame().setScore1(score1);
 		sessionScopeBean.getGame().setScore2(score2);

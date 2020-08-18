@@ -57,4 +57,8 @@ public class GameService {
 		entityManager.merge(period);
 	}
 
+	public void startGame(Game game) {
+		entityManager.merge(game);
+	}
+
 }
