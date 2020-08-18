@@ -75,7 +75,10 @@ public class UserService {
 		return user;
 	}
 
-	public User updateUser(User user) {
+	public User updateUser(User user, String previousEmail) {
+		Login login = entityManager.createQuery("from Login l where l.email =:email", Login.class).setParameter("email", previousEmail).getSingleResult();
+		login.setEmail(user.getEmail());
+		entityManager.merge(login);
 		User user1 = entityManager.merge(user);
 		return user1;
 	}

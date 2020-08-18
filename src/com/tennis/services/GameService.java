@@ -42,4 +42,16 @@ public class GameService {
 		return entityManager.find(Player.class, playerId);
 	}
 
+	public Game getGame(int gameId) {
+		return entityManager.find(Game.class, gameId);
+	}
+
+	public void startGame(Game game) {
+		entityManager.merge(game);
+	}
+
+	public void submitScore(Game game) {
+		entityManager.merge(game);
+	}
+
 }

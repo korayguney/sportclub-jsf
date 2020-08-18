@@ -22,23 +22,28 @@ public class Game {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int score;
+	private int score1;
+	private int score2;
+	private int set_number;
+	private int game_number;
 	private LocalDate date;
 	private LocalTime time;
 	private String place;
 	private int court;
+	private GameStatus gameStatus;
 	
 	@OneToOne
 	private Player player1;
 	@OneToOne
 	private Player player2;
 	
-//	@OneToMany(fetch = FetchType.EAGER)
-//	private List<Player> playersOfTheGame = new ArrayList<Player>();
-	
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private Tournament tournament;
 	
+	
+	public enum GameStatus {
+		NOT_PLAYED_YET, NOW_PLAYING, FINISHED;
+	}
 	
 	public int getId() {
 		return id;
@@ -46,13 +51,18 @@ public class Game {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getScore() {
-		return score;
+	public int getScore1() {
+		return score1;
 	}
-	public void setScore(int score) {
-		this.score = score;
+	public void setScore1(int score1) {
+		this.score1 = score1;
 	}
-
+	public int getScore2() {
+		return score2;
+	}
+	public void setScore2(int score2) {
+		this.score2 = score2;
+	}
 	public String getPlace() {
 		return place;
 	}
@@ -95,6 +105,33 @@ public class Game {
 	}
 	public void setPlayer2(Player player2) {
 		this.player2 = player2;
+	}
+	
+	public int getSet_number() {
+		return set_number;
+	}
+	public void setSet_number(int set_number) {
+		this.set_number = set_number;
+	}
+	
+	public GameStatus getGameStatus() {
+		return gameStatus;
+	}
+	public void setGameStatus(GameStatus gameStatus) {
+		this.gameStatus = gameStatus;
+	}
+	
+	public int getGame_number() {
+		return game_number;
+	}
+	public void setGame_number(int game_number) {
+		this.game_number = game_number;
+	}
+	@Override
+	public String toString() {
+		return "Game [id=" + id + ", score1=" + score1 + ", score2=" + score2 + ", date=" + date + ", time=" + time
+				+ ", place=" + place + ", court=" + court + ", player1=" + player1 + ", player2=" + player2
+				+ ", tournament=" + tournament + "]";
 	}
 	
 	

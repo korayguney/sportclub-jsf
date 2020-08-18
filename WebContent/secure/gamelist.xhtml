@@ -43,19 +43,22 @@
 				filterBy="#{game.player1.firstname}">
 				<h:outputText value="#{game.player2.firstname} #{game.player2.lastname}" />
 			</p:column>
+			<p:column headerText="SCORE" style="width:70px;">
+				<h:outputText value="#{game.score1} - #{game.score2}" />
+			</p:column>
 			<p:column headerText="START DATE"
 				sortBy="#{game.date}"
-				filterBy="#{game.date}">
+				filterBy="#{game.date}" style="width:100px;">
 				<h:outputText value="#{game.date}" />
 			</p:column>
 			<p:column headerText="START TIME"
 				sortBy="#{game.time}"
-				filterBy="#{game.time}">
+				filterBy="#{game.time}" style="width:100px;">
 				<h:outputText value="#{game.time}" />
 			</p:column>
 
 
-			<p:column headerText="MANAGE GAME" style="width:350px;">
+			<p:column headerText="MANAGE GAME" style="width:450px;">
 
 				<p:button
 					href="updategame.xhtml?gameId=#{game.id}"
@@ -63,10 +66,13 @@
 				<p:commandButton value="DELETE"
 					action="#{gameListBean.deleteGame(game)}"
 					ajax="false"></p:commandButton>
+				<p:button
+					href="scoregame.xhtml?gameId=#{game.id}"
+					value="UPDATE SCORE"></p:button>
 			</p:column>
 
 			<f:facet name="footer"> 
-				There are #{tournamentListBean.tournaments.size()} tournaments on the table.
+				There are #{gameListBean.games.size()} games on the table.
 			</f:facet>
 
 		</p:dataTable>

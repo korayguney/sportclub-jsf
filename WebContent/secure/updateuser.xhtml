@@ -31,6 +31,11 @@
 				<td><p:message for="email"/> </td>
 			</tr>
 			<tr>
+				<td><p:outputLabel>Phone Number :</p:outputLabel></td>
+				<td><p:inputText value="#{updateUserBean.user.phone_num}" required="true" requiredMessage="You cannot left empty!" id="pnum"/></td>
+				<td><p:message for="pnum"/> </td>
+			</tr>
+			<tr>
 				<td><p:outputLabel>Role :</p:outputLabel></td>
 				<td>
 					<p:selectOneMenu id="role" value="#{updateUserBean.user.role}" style="width: 220px" >
