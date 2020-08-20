@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.tennis.models.Game;
 import com.tennis.models.Game.GameStatus;
+import com.tennis.models.GameSet;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
 import com.tennis.services.GameService;
@@ -30,6 +31,7 @@ public class ScoreGameBean {
 	private Date gamedate;
 	private Player player1;
 	private Player player2;
+	private GameSet gameSet;
 
 	@EJB
 	GameService gameService;
@@ -48,6 +50,7 @@ public class ScoreGameBean {
 
 		players = userService.getAllPlayers();
 		game = new Game();
+		gameSet = new GameSet();
 
 		try {
 			HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -71,13 +74,13 @@ public class ScoreGameBean {
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Game is started "));
 	}
 
-	public void submitScore(int game, int period, int score1, int score2) {
+	public void submitScore(int set, int score1, int score2) {
 		
-		sessionScopeBean.getGame().setGame_number(game);
-		sessionScopeBean.getGame().setPeriod_number(period);
-		sessionScopeBean.getGame().setScore1(score1);
-		sessionScopeBean.getGame().setScore2(score2);
-		gameService.submitScore(sessionScopeBean.getGame());
+		this.gameSet.setSet_no(set);
+		this.gameSet.setScore1(score1);
+		this.gameSet.setScore2(score2);
+		this.gameSet.setGame(sessionScopeBean.getGame());
+		gameService.submitScore(this.gameSet);
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
@@ -86,11 +89,7 @@ public class ScoreGameBean {
 
 	public void submitGame(int game, int period, int score1, int score2) {
 
-		sessionScopeBean.getGame().setGame_number(game);
-		sessionScopeBean.getGame().setPeriod_number(period);
-		sessionScopeBean.getGame().setScore1(score1);
-		sessionScopeBean.getGame().setScore2(score2);
-		gameService.submitScore(sessionScopeBean.getGame());
+		
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Game is saved "));
@@ -176,5 +175,15 @@ public class ScoreGameBean {
 	public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
 		this.sessionScopeBean = sessionScopeBean;
 	}
+
+	public GameSet getGameSet() {
+		return gameSet;
+	}
+
+	public void setGameSet(GameSet gameSet) {
+		this.gameSet = gameSet;
+	}
+	
+	
 
 }

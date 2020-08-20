@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import com.tennis.exceptions.EmailIsAlreadyExistException;
 import com.tennis.models.Game;
+import com.tennis.models.GameSet;
 import com.tennis.models.Login;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
@@ -50,8 +51,10 @@ public class GameService {
 		entityManager.merge(game);
 	}
 
-	public void submitScore(Game game) {
-		entityManager.merge(game);
+	public void submitScore(GameSet gameSet) {
+		entityManager.createQuery("UPDATE GameSet g SET g.score1 =?1, g.score2 =?2, g.set_no =?3 WHERE g.game =?4 ")
+		.setParameter(1, gameSet.getScore1()).setParameter(2, gameSet.getScore2()).setParameter(3, gameSet.getSet_no())
+		.setParameter(4, gameSet.getGame()).executeUpdate();
 	}
 
 }
