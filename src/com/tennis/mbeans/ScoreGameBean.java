@@ -75,21 +75,26 @@ public class ScoreGameBean {
 	}
 
 	public void submitScore(int set, int score1, int score2) {
-		
-		this.gameSet.setSet_no(set);
-		this.gameSet.setScore1(score1);
-		this.gameSet.setScore2(score2);
-		this.gameSet.setGame(sessionScopeBean.getGame());
-		gameService.submitScore(this.gameSet);
+		if (this.game.getGameStatus().equals(GameStatus.NOW_PLAYING)) {
 
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
+			this.gameSet.setSet_no(set);
+			this.gameSet.setScore1(score1);
+			this.gameSet.setScore2(score2);
+			this.gameSet.setGame(sessionScopeBean.getGame());
+			gameService.submitScore(this.gameSet);
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "game has not started! ", " press start game button"));
+			
+			
+		}
 
 	}
 
 	public void submitGame(int game, int period, int score1, int score2) {
-
-		
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Game is saved "));
@@ -183,7 +188,5 @@ public class ScoreGameBean {
 	public void setGameSet(GameSet gameSet) {
 		this.gameSet = gameSet;
 	}
-	
-	
 
 }

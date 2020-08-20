@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 
 import com.tennis.models.Admin;
 import com.tennis.models.Game;
+import com.tennis.models.Game.GameStatus;
 import com.tennis.models.Login;
 import com.tennis.models.Parent;
 import com.tennis.models.Player;
@@ -158,6 +159,7 @@ public class InitService {
 			game.setCourt(1);
 			game.setDate(LocalDate.of(2020, Month.JUNE, 22));
 			game.setTime(LocalTime.of(15, 30));
+			game.setGameStatus(GameStatus.NOT_PLAYED_YET);
 			//game.setPlayersOfTheGame(this.playerOfTheGames);
 			game.setPlayer1(this.playerOfTheGames.get(0));
 			game.setPlayer2(this.playerOfTheGames.get(1));
