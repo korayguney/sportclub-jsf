@@ -14,10 +14,11 @@ import com.tennis.models.Admin;
 import com.tennis.models.Game;
 import com.tennis.models.Login;
 import com.tennis.models.Parent;
-import com.tennis.models.Period;
+import com.tennis.models.GameSet;
 import com.tennis.models.Player;
 import com.tennis.models.Role;
 import com.tennis.models.Tournament;
+import com.tennis.models.Game.GameStatus;
 import com.tennis.utils.HashAlgorithm;
 import com.tennis.utils.HashingUtils;
 import com.tennis.models.Player.Gender;
@@ -162,6 +163,7 @@ public class InitService {
 			game.setTime(LocalTime.of(15, 30));
 			game.setPlayer1((this.playerOfTheGames.get(0)));
 			game.setPlayer2((this.playerOfTheGames.get(1)));
+			game.setGameStatus(GameStatus.NOT_PLAYED_YET);
 			
 			entityManager.persist(game);
 			

@@ -1,5 +1,6 @@
 package com.tennis.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -7,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.tennis.models.Game;
-import com.tennis.models.Period;
+import com.tennis.models.GameSet;
 import com.tennis.models.Tournament;
 
 @Stateless
@@ -48,17 +49,31 @@ public class GameService {
 		entityManager.persist(game);
 	}
 
-	public void submitScore(Game game) {
+	public void submitScore(GameSet gameSet) {
+		System.out.println(gameSet);
+		entityManager.createQuery("update GameSet g set g.score1 =:score1, g.score2 =:score2, g.set_number =:set_number where g.game =:game")
+		.setParameter("score1", gameSet.getScore1()).setParameter("score2", gameSet.getScore2()).setParameter("game", gameSet.getGame())
+		.setParameter("set_number", gameSet.getSet_number())
+		.executeUpdate();
 		
-		entityManager.merge(game);
 	}
 
-	public void submitPeriod(Period period) {
-		entityManager.merge(period);
+	public void submitSet(GameSet set) {
+		entityManager.merge(set);
 	}
 
 	public void startGame(Game game) {
 		entityManager.merge(game);
 	}
 
+	public void finishGame(Game game) {
+		entityManager.merge(game);
+	}
+
+	public List<Integer> getTotalScore(Game game) {
+		List<GameSet> gameSetList = entityManager.createQuery("from GameSet g where g.game =?1", GameSet.class).setParameter(1, game).getResultList();
+		List<Integer> lastScore = new ArrayList<Integer>();
+		
+		return null;
+	}
 }

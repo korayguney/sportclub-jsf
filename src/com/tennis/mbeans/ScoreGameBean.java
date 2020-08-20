@@ -1,6 +1,7 @@
 package com.tennis.mbeans;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.tennis.models.Game;
-import com.tennis.models.Period;
+import com.tennis.models.GameSet;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
 import com.tennis.models.Game.GameStatus;
@@ -31,6 +32,7 @@ public class ScoreGameBean {
 	private Date gamedate;
 	private Player player1;
 	private Player player2;
+	private GameSet gameSet;
 
 	@EJB
 	GameService gameService;
@@ -43,12 +45,13 @@ public class ScoreGameBean {
 
 	@ManagedProperty(value = "#{sessionScopeBean}")
 	SessionScopeBean sessionScopeBean;
-	
+
 	@PostConstruct
 	public void init() {
 
 		players = userService.getAllPlayers();
 		game = new Game();
+		gameSet = new GameSet();
 
 		try {
 			HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -62,57 +65,87 @@ public class ScoreGameBean {
 		}
 
 	}
-	
+
 	public void startGame(Game game) {
 		this.game = game;
 		this.game.setGameStatus(GameStatus.NOW_PLAYING);
 		gameService.startGame(this.game);
-		
+
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Game is started "));
 	}
 
-	public void submitScore(int period, int score1, int score2) {
-		
-		sessionScopeBean.getGame().setPeriod_number(period);
-		sessionScopeBean.getGame().setScore1(score1);
-		sessionScopeBean.getGame().setScore2(score2);
-		gameService.submitScore(sessionScopeBean.getGame());
+	public void submitScore(int set, int score1, int score2) {
 
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
+		if (game.getGameStatus().equals(GameStatus.NOW_PLAYING)) {
+
+			this.gameSet.setScore1(score1);
+			this.gameSet.setScore2(score2);
+			this.gameSet.setGame(sessionScopeBean.getGame());
+			gameService.submitScore(this.gameSet);
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
+
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Game is not started yet!", "Please start game first! "));
+		}
 
 	}
 
-	public void submitPeriod(int period_no, int score1, int score2) {
+	public void submitSet(int set1, int score1, int score2) {
 
-		Period period = new Period();
-		period.setPeriod_number(period_no);
-		period.setScore1(score1);
-		period.setScore2(score2);
-		period.setGame(sessionScopeBean.getGame());
-		gameService.submitPeriod(period);
+		if (score1 == 6 || score2 == 6) {
+			GameSet set = new GameSet();
+			set.setSet_number(set1);
+			set.setScore1(score1);
+			set.setScore2(score2);
+			set.setGame(sessionScopeBean.getGame());
+			gameService.submitSet(set);
 
-		Player winner = new Player();
-		
-		if(score1 > score2) {
-			winner=sessionScopeBean.getGame().getPlayer1();
+			Player winner = new Player();
+
+			if (score1 > score2) {
+				winner = sessionScopeBean.getGame().getPlayer1();
+			} else {
+				winner = sessionScopeBean.getGame().getPlayer2();
+			}
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Period is submitted with scores",
+							"Winner of the period : " + winner.getFirstname() + " " + winner.getLastname()));
+
 		} else {
-			winner=sessionScopeBean.getGame().getPlayer2();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "One of scores must be 6 according to rules"));
+		}
+
+	}
+
+	public void submitGame(Game game, int set1, int score1, int score2) {
+		if (set1 == 5) {
+			this.game = game;
+			this.game.setGameStatus(GameStatus.FINISHED);
+			gameService.finishGame(this.game);
+			
+			Player winner = new Player();
+			
+			List<Integer> lastScore = gameService.getTotalScore(game);
+			
+			if (score1 > score2) {
+				winner = sessionScopeBean.getGame().getPlayer1();
+			} else {
+				winner = sessionScopeBean.getGame().getPlayer2();
+			}
+			
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Game is finished ", "Winner of the period : " + winner.getFirstname() + " " + winner.getLastname()));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Last set must be 5 according to rules"));
 		}
 		
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Period is submitted with scores"));
-		
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Winner of the period : " + winner.getFirstname() + " " + winner.getLastname()));
-
-	}
-
-	public void submitGame(int score1, int score2) {
-
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
 
 	}
 
@@ -194,6 +227,14 @@ public class ScoreGameBean {
 
 	public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
 		this.sessionScopeBean = sessionScopeBean;
+	}
+
+	public GameSet getGameSet() {
+		return gameSet;
+	}
+
+	public void setGameSet(GameSet gameSet) {
+		this.gameSet = gameSet;
 	}
 
 }

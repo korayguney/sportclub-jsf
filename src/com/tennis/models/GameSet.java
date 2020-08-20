@@ -7,37 +7,37 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Period {
+public class GameSet {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int score1;
 	private int score2;
-	private int period_number;
+	private int set_number;
 	
 	@OneToOne
 	private Game game;
 
-	public Period() {
+	public GameSet() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Period(int score1, int score2, int period_number, Game game) {
+	public GameSet(int score1, int score2, int set_number, Game game) {
 		super();
 		this.score1 = score1;
 		this.score2 = score2;
-		this.period_number = period_number;
+		this.set_number = set_number;
 		this.game = game;
 	}
 
 	
-	public int getPeriod_number() {
-		return period_number;
+	public int getSet_number() {
+		return set_number;
 	}
 
-	public void setPeriod_number(int period_number) {
-		this.period_number = period_number;
+	public void setSet_number(int set_number) {
+		this.set_number = set_number;
 	}
 
 	public int getId() {
@@ -70,6 +70,12 @@ public class Period {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	@Override
+	public String toString() {
+		return "GameSet [id=" + id + ", score1=" + score1 + ", score2=" + score2 + ", set_number=" + set_number
+				+ ", game=" + game + "]";
 	}
 
 	

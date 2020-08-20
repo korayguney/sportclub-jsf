@@ -26,12 +26,8 @@ public class Game {
 	private String place;
 	private int court;
 	private GameStatus gameStatus;
-	private int score1;
-	private int score2;
-	private int period_number;
-
-//	@OneToOne(mappedBy = "game", cascade = CascadeType.ALL)
-//	private Period period;
+	private int set_score1;
+	private int set_score2;
 
 	@OneToOne
 	private Player player1;
@@ -53,12 +49,6 @@ public class Game {
 		this.id = id;
 	}
 
-//	public Score getScore() {
-//		return score;
-//	}
-//	public void setScore(Score score) {
-//		this.score = score;
-//	}
 	public LocalDate getDate() {
 		return date;
 	}
@@ -123,41 +113,31 @@ public class Game {
 		this.gameStatus = gameStatus;
 	}
 
-	public int getScore1() {
-		return score1;
+	public int getSet_score1() {
+		return set_score1;
 	}
 
-	public void setScore1(int score1) {
-		this.score1 = score1;
+	public void setSet_score1(int set_score1) {
+		this.set_score1 = set_score1;
 	}
 
-	public int getScore2() {
-		return score2;
+	public int getSet_score2() {
+		return set_score2;
 	}
 
-	public void setScore2(int score2) {
-		this.score2 = score2;
+	public void setSet_score2(int set_score2) {
+		this.set_score2 = set_score2;
 	}
 
-	public int getPeriod_number() {
-		return period_number;
-	}
-
-	public void setPeriod_number(int period_number) {
-		this.period_number = period_number;
-	}
-
-	// public Period getPeriod() {
-//		return period;
-//	}
-//	public void setPeriod(Period period) {
-//		this.period = period;
-//	}
+	
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", date=" + date + ", time=" + time + ", place=" + place + ", court=" + court
-				+ ", gameStatus=" + gameStatus + ", score1=" + score1 + ", score2=" + score2 + ", player1=" + player1
-				+ ", player2=" + player2 + ", tournament=" + tournament + "]";
+				+ ", gameStatus=" + gameStatus + ", set_score1=" + set_score1 + ", set_score2=" + set_score2
+				+", player1=" + player1 + ", player2=" + player2 + ", tournament="
+				+ tournament + "]";
 	}
+
+	
 
 }
