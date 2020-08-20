@@ -62,6 +62,30 @@ public class InitService {
 
 			Login login4 = new Login(player2.getEmail(),player2.getPassword(), Role.PLAYER);
 
+			Player player3 = new Player();
+			player3.setFirstname("Roger");
+			player3.setLastname("Federer");
+			player3.setAge(40);
+			player3.setEmail("roger@gmail.com");
+			player3.setGender(Gender.MALE);
+			player3.setPhone_num("5555555555");
+			player3.setPassword(HashingUtils.hashPassword("1234", HashAlgorithm.SHA256).toString());
+			player3.setRole(Role.PLAYER);
+
+			Login login5 = new Login(player3.getEmail(),player3.getPassword(), Role.PLAYER);
+			
+			Player player4 = new Player();
+			player4.setFirstname("Rafael");
+			player4.setLastname("Nadal");
+			player4.setAge(42);
+			player4.setEmail("rafael@gmail.com");
+			player4.setGender(Gender.MALE);
+			player4.setPhone_num("5555555555");
+			player4.setPassword(HashingUtils.hashPassword("1234", HashAlgorithm.SHA256).toString());
+			player4.setRole(Role.PLAYER);
+
+			Login login6 = new Login(player4.getEmail(),player4.getPassword(), Role.PLAYER);
+			
 			
 			Parent parent = new Parent();
 			parent.setFirstname("Serhan");
@@ -88,6 +112,8 @@ public class InitService {
 			
 			entityManager.persist(player);
 			entityManager.persist(player2);
+			entityManager.persist(player3);
+			entityManager.persist(player4);
 			entityManager.persist(parent);
 			entityManager.persist(admin);
 			
@@ -96,6 +122,8 @@ public class InitService {
 			entityManager.persist(login2);
 			entityManager.persist(login3);
 			entityManager.persist(login4);
+			entityManager.persist(login5);
+			entityManager.persist(login6);
 			
 			this.playerOfTheGames.add(player);
 			this.playerOfTheGames.add(player2);
