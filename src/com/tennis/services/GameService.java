@@ -28,9 +28,9 @@ public class GameService {
 	public void deleteGame(Game game) {
 
 		game = entityManager.find(Game.class, game.getId());
-		
-		//game.setTournament(null);
-		
+
+		// game.setTournament(null);
+
 		entityManager.remove(game);
 	}
 
@@ -44,18 +44,28 @@ public class GameService {
 	}
 
 	public void saveGame(Game game) {
-		System.out.println("SERVICE saveGame --> "+ game);
+		System.out.println("SERVICE saveGame --> " + game);
 
 		entityManager.persist(game);
 	}
 
 	public void submitScore(GameSet gameSet) {
 		System.out.println(gameSet);
-		entityManager.createQuery("update GameSet g set g.score1 =:score1, g.score2 =:score2, g.set_number =:set_number where g.game =:game")
-		.setParameter("score1", gameSet.getScore1()).setParameter("score2", gameSet.getScore2()).setParameter("game", gameSet.getGame())
-		.setParameter("set_number", gameSet.getSet_number())
-		.executeUpdate();
-		
+
+		GameSet gameSet2 = entityManager.find(GameSet.class, gameSet.getId());
+
+		if (gameSet2 != null) {
+
+			entityManager.createQuery(
+					"update GameSet g set g.score1 =:score1, g.score2 =:score2, g.set_number =:set_number where g.game =:game")
+					.setParameter("score1", gameSet.getScore1()).setParameter("score2", gameSet.getScore2())
+					.setParameter("game", gameSet.getGame()).setParameter("set_number", gameSet.getSet_number())
+					.executeUpdate();
+
+		} else {
+			entityManager.persist(gameSet);
+		}
+
 	}
 
 	public void submitSet(GameSet set) {
@@ -71,9 +81,30 @@ public class GameService {
 	}
 
 	public List<Integer> getTotalScore(Game game) {
-		List<GameSet> gameSetList = entityManager.createQuery("from GameSet g where g.game =?1", GameSet.class).setParameter(1, game).getResultList();
+		List<GameSet> gameSetList = entityManager.createQuery("from GameSet g where g.game =?1", GameSet.class)
+				.setParameter(1, game).getResultList();
 		List<Integer> lastScore = new ArrayList<Integer>();
-		
+
 		return null;
 	}
+
+	public List<Integer> getLastSetScores(Game game) {
+		Game found_game = entityManager.find(Game.class, game.getId());
+		
+		System.out.println("Found Game : " + found_game);
+		
+		List<Integer> scoreList = new ArrayList<>();
+		scoreList.add(found_game.getSet_score1());
+		scoreList.add(found_game.getSet_score2());
+		
+		System.out.println("Score is found : " + scoreList.get(0)+ "-" + scoreList.get(1));
+		
+		return scoreList;
+	}
+
+	public void submitSetScore(Game game) {
+		entityManager.merge(game);
+	}
+
+	
 }

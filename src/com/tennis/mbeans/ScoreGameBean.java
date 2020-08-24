@@ -69,13 +69,14 @@ public class ScoreGameBean {
 	public void startGame(Game game) {
 		this.game = game;
 		this.game.setGameStatus(GameStatus.NOW_PLAYING);
+		this.gameSet.setSet_number(1);
 		gameService.startGame(this.game);
 
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Game is started "));
 	}
 
-	public void submitScore(int set, int score1, int score2) {
+	public void submitScore(int score1, int score2) {
 
 		if (game.getGameStatus().equals(GameStatus.NOW_PLAYING)) {
 
@@ -83,7 +84,32 @@ public class ScoreGameBean {
 			this.gameSet.setScore2(score2);
 			this.gameSet.setGame(sessionScopeBean.getGame());
 			gameService.submitScore(this.gameSet);
+			
+			if(score1 == 6 || score2 == 6) {
+				int set = this.gameSet.getSet_number();
+				this.gameSet.setSet_number(++set);
+				
+				Player winner = new Player();
+				
+				List<Integer> scores = gameService.getLastSetScores(sessionScopeBean.getGame());
+				
+				if (score1 > score2) {
+					winner = sessionScopeBean.getGame().getPlayer1();
+					int setscore1 = scores.get(0);
+					sessionScopeBean.getGame().setSet_score1(++setscore1);
+					gameService.submitSetScore(sessionScopeBean.getGame());
+				} else {
+					winner = sessionScopeBean.getGame().getPlayer2();
+					int setscore2 = scores.get(1);
+					sessionScopeBean.getGame().setSet_score2(++setscore2);
+					gameService.submitSetScore(sessionScopeBean.getGame());
+				}
 
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Set is submitted with scores",
+								"Winner of the set : " + winner.getFirstname() + " " + winner.getLastname()));
+			}
+			
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Score is saved "));
 
@@ -94,34 +120,6 @@ public class ScoreGameBean {
 
 	}
 
-	public void submitSet(int set1, int score1, int score2) {
-
-		if (score1 == 6 || score2 == 6) {
-			GameSet set = new GameSet();
-			set.setSet_number(set1);
-			set.setScore1(score1);
-			set.setScore2(score2);
-			set.setGame(sessionScopeBean.getGame());
-			gameService.submitSet(set);
-
-			Player winner = new Player();
-
-			if (score1 > score2) {
-				winner = sessionScopeBean.getGame().getPlayer1();
-			} else {
-				winner = sessionScopeBean.getGame().getPlayer2();
-			}
-
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Period is submitted with scores",
-							"Winner of the period : " + winner.getFirstname() + " " + winner.getLastname()));
-
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "One of scores must be 6 according to rules"));
-		}
-
-	}
 
 	public void submitGame(Game game, int set1, int score1, int score2) {
 		if (set1 == 5) {
