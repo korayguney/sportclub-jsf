@@ -1,17 +1,16 @@
 package com.tennis.mbeans;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.context.FacesContext;
 
 import com.tennis.models.Game;
+import com.tennis.models.GameSet;
 import com.tennis.models.Player;
+import com.tennis.models.Tournament;
 import com.tennis.models.User;
 import com.tennis.services.GameService;
 import com.tennis.services.TournamentService;
@@ -22,6 +21,8 @@ public class ParentBean {
 	
 	private List<User> users;
 	private Player player;
+	private Tournament tournament;
+	private GameSet gameSet;
 	
 	@EJB
 	private UserService userService;
@@ -39,20 +40,27 @@ public class ParentBean {
 	public void init() {
 		users = userService.getAllUsers();
 		player = new Player();
+		tournament = new Tournament();
+		gameSet = new GameSet();
 	}
 	
 	public Player getPlayerOfParent() {
 		this.player = userService.getPlayerOfParent(sessionScopeBean.getUser());
-		
 		return this.player;
-
+	}
+	
+	public Tournament getTournamentOfPlayer() {
+		this.tournament = userService.getTournamentOfPlayer(getPlayerOfParent());
+		return this.tournament;
+	}
+	
+	public GameSet getGameSetOfPlayer() {
+		this.gameSet = userService.getGameSetOfPlayer(getPlayerOfParent());
+		return this.gameSet;
 	}
 	
 	public Game getCurrentGame() {
-		
-		
 		return null;
-		
 	}
 
 	public List<User> getUsers() {
@@ -102,8 +110,22 @@ public class ParentBean {
 	public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
 		this.sessionScopeBean = sessionScopeBean;
 	}
-	
-	
+
+	public Tournament getTournament() {
+		return tournament;
+	}
+
+	public void setTournament(Tournament tournament) {
+		this.tournament = tournament;
+	}
+
+	public GameSet getGameSet() {
+		return gameSet;
+	}
+
+	public void setGameSet(GameSet gameSet) {
+		this.gameSet = gameSet;
+	}
 	
 	
 }
