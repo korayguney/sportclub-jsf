@@ -1,5 +1,6 @@
 package com.tennis.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -52,9 +53,31 @@ public class GameService {
 	}
 
 	public void submitScore(GameSet gameSet) {
-		entityManager.createQuery("UPDATE GameSet g SET g.score1 =?1, g.score2 =?2, g.set_no =?3 WHERE g.game =?4 ")
-		.setParameter(1, gameSet.getScore1()).setParameter(2, gameSet.getScore2()).setParameter(3, gameSet.getSet_no())
-		.setParameter(4, gameSet.getGame()).executeUpdate();
+		
+		GameSet gameSet2 = entityManager.find(GameSet.class, gameSet.getId());
+		
+		if(gameSet2 != null) {
+			entityManager.createQuery("UPDATE GameSet g SET g.score1 =?1, g.score2 =?2, g.set_no =?3 WHERE g.game =?4 ")
+			.setParameter(1, gameSet.getScore1()).setParameter(2, gameSet.getScore2()).setParameter(3, gameSet.getSet_no())
+			.setParameter(4, gameSet.getGame()).executeUpdate();
+		} else {
+			entityManager.persist(gameSet);
+		}
+		
+	}
+
+	public List<Integer> getLastSetScores(Game game) {
+		Game found_game = entityManager.find(Game.class, game.getId());
+		
+		List<Integer> scores = new ArrayList<Integer>();
+		scores.add(found_game.getSet_score1());
+		scores.add(found_game.getSet_score2());
+		
+		return scores;
+	}
+
+	public void submitSetScore(Game game) {
+		entityManager.merge(game);
 	}
 
 }
