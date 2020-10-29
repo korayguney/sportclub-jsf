@@ -5,73 +5,74 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head>
-<body>
+<ui:composition template="/WEB-INF/templates/admin.xhtml">
+	<ui:define name="pageContent">
+	
+	<div class="alert alert-info" align="center"><h3>User List Page</h3> </div>
+		<div class="alert alert-success" align="center">
 
-	<br />
-	<br />
-	<br />
+			<h:form id="addForm">
 
-	<div align="center">
-		<h1>USER OPERATIONS PAGE</h1>
-		<br />
-		<p:button href="register.xhtml" value="Add Users" />
-	</div>
-	<br />
-	<br />
-	<h:form>
-		<p:dataTable value="#{userListBean.users}" var="user"
-			widgetVar="usersTable">
+					<h:form>
+						<p:dataTable value="#{userListBean.users}" var="user"
+							widgetVar="usersTable">
 
-			<f:facet name="header"> 
+							<f:facet name="header"> 
 				USER LIST 
 				 <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()"
-					style="width:150px" placeholder="Enter keyword" />
-			</f:facet>
+									style="width:150px" placeholder="Enter keyword" />
+							</f:facet>
 
-			<p:column headerText="ID" sortBy="#{user.id}" style="width:30px;">
-				<h:outputText value="#{user.id}" />
-			</p:column>
-			<p:column headerText="FIRST NAME" sortBy="#{user.firstname}"
-				filterBy="#{user.firstname}">
-				<h:outputText value="#{user.firstname}" />
-			</p:column>
-			<p:column headerText="LAST NAME" sortBy="#{user.lastname}"
-				filterBy="#{user.lastname}">
-				<h:outputText value="#{user.lastname}" />
-			</p:column>
-			<p:column headerText="EMAIL" sortBy="#{user.email}"
-				filterBy="#{user.email}">
-				<h:outputText value="#{user.email}" />
-			</p:column>
-			<p:column headerText="PHONE NUMBER" sortBy="#{user.phone_num}"
-				filterBy="#{user.phone_num}">
-				<h:outputText value="#{user.phone_num}" />
-			</p:column>
-			<p:column headerText="ROLE" sortBy="#{user.role}"
-				filterBy="#{user.role}">
-				<h:outputText value="#{user.role}" />
-			</p:column>
+							<p:column headerText="ID" sortBy="#{user.id}" style="width:30px;">
+								<h:outputText value="#{user.id}" />
+							</p:column>
+							<p:column headerText="FIRST NAME" sortBy="#{user.firstname}"
+								filterBy="#{user.firstname}">
+								<h:outputText value="#{user.firstname}" />
+							</p:column>
+							<p:column headerText="LAST NAME" sortBy="#{user.lastname}"
+								filterBy="#{user.lastname}">
+								<h:outputText value="#{user.lastname}" />
+							</p:column>
+							<p:column headerText="EMAIL" sortBy="#{user.email}"
+								filterBy="#{user.email}">
+								<h:outputText value="#{user.email}" />
+							</p:column>
+							<p:column headerText="PHONE NUMBER" sortBy="#{user.phone_num}"
+								filterBy="#{user.phone_num}">
+								<h:outputText value="#{user.phone_num}" />
+							</p:column>
+							<p:column headerText="ROLE" sortBy="#{user.role}"
+								filterBy="#{user.role}">
+								<h:outputText value="#{user.role}" />
+							</p:column>
 
-			<p:column headerText="MANAGE USER">
+							<p:column headerText="MANAGE USER">
 
-				<p:button href="updateuser.xhtml?userId=#{user.id}" value="UPDATE"></p:button>
-				<p:commandButton value="DELETE"
-					action="#{userListBean.deleteUser(user)}" ajax="false"></p:commandButton>
-				<!-- p:commandButton value="HELLO"
+								<p:button href="updateuser.xhtml?userId=#{user.id}"
+									value="UPDATE"></p:button>
+								<p:commandButton value="DELETE"
+									action="#{userListBean.deleteUser(user)}" ajax="false"></p:commandButton>
+								<!-- p:commandButton value="HELLO"
 					action="#{userListBean.sayHello(user)}" ajax="false"></p:commandButton-->
 
-			</p:column>
+							</p:column>
 
-			<f:facet name="footer"> 
+							<f:facet name="footer"> 
 				There are #{userListBean.users.size()} users on the table.
 			</f:facet>
 
-		</p:dataTable>
+						</p:dataTable>
 
-		<p:messages autoUpdate="true" showDetail="true"></p:messages>
-		<p:button value="BACK"
-			href="#{request.contextPath}/../secure/main-admin.xhtml"></p:button>
-	</h:form>
-</body>
+						<p:messages autoUpdate="true" showDetail="true"></p:messages>
+						
+					</h:form>
+
+			</h:form>
+
+		</div>	
+				
+	</ui:define>
+</ui:composition>
+
 </html>

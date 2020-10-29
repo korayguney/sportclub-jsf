@@ -5,25 +5,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head>
 
-</h:head>
-<body>
-
-	<br />
-	<br />
-	<br />
-
-	<h1 align="center">USER ADDING PAGE</h1>
-	<hr />
-	<br />
-	<br />
-
-	<h:form>
-
-
-
-		<table align="center">
+<ui:composition template="/WEB-INF/templates/admin.xhtml">
+	<ui:define name="pageContent">
+	
+	<div class="alert alert-info" align="center"><h3>New User Page</h3> </div>
+		<div class="alert alert-success" align="center">
+	
+	<h:form id="addForm">
+	<table align="center">
+	
 			<tr>
 				<td><p:outputLabel>First Name :</p:outputLabel></td>
 				<td><p:inputText value="#{register.user.firstname}"
@@ -103,11 +94,12 @@
 			</tr>
 		</table>
 		<p:messages showDetail="true" autoUpdate="true" />
-	</h:form>
-	<br />
-	<br />
-	<hr />
+	
+		</h:form>
 
+</div>	
+				
+	</ui:define>
+</ui:composition>
 
-</body>
 </html>
