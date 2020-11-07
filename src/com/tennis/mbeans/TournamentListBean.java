@@ -17,46 +17,52 @@ import com.tennis.services.TournamentService;
 @ManagedBean
 public class TournamentListBean {
 
-	private List<Tournament> tournaments;
 	private Tournament tournament;
-	private Date tour_start_date;
-	private Date tour_finish_date;
-	
+	private Date tournament_start_date;
+	private Date tournament_finish_date;
+	private List<Tournament> tournaments;
+
 	@EJB
-	private TournamentService tournamentService;
-	
+	TournamentService tournamentService;
+
 	@PostConstruct
 	public void init() {
 		tournaments = tournamentService.getAllTournaments();
 		tournament = new Tournament();
 	}
-	
-	public String saveTournament() {
-		convertDateToLocaldate();
-		
-		tournamentService.saveTournament(this.tournament);
-		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Tournament is succesfully saved"));
 
+	public String saveTournament() {
+		System.out.println(" tarih : " + getTournament_start_date() );
+		convertStringDateToLocalDate();
+		System.out.println("Tournament : " + this.tournament);
+		boolean result = tournamentService.saveTournament(this.tournament);
+		
+		if(result) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Tournament is saved "));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Tournament is not saved "));
+		}
+		
 		return "secure/addtournament";
-		
-		
+
 	}
-	
-	public void convertDateToLocaldate() {
-		LocalDate start_date = getTour_start_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate finish_date = getTour_finish_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+	private void convertStringDateToLocalDate() {
+		
+		LocalDate start_date = getTournament_start_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate finish_date = getTournament_finish_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
 		this.tournament.setTour_start_date(start_date);
 		this.tournament.setTour_finish_date(finish_date);
 	}
-	
-	
+
 	public String deleteTournament(Tournament tournament) {
 		tournamentService.deleteTournament(tournament);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Succesfully deleted"));
-		return "secure/userlist?faces-redirect=true";
-
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Succesfully deleted"));
+		return "#{request.contextPath}/../secure/tournamentlist?faces-redirect=true";
 	}
 
 	public List<Tournament> getTournaments() {
@@ -83,25 +89,25 @@ public class TournamentListBean {
 		this.tournament = tournament;
 	}
 
-	public Date getTour_start_date() {
-		return tour_start_date;
+	public Date getTournament_start_date() {
+		return tournament_start_date;
 	}
 
-	public void setTour_start_date(Date tour_start_date) {
-		this.tour_start_date = tour_start_date;
+	public void setTournament_start_date(Date tournament_start_date) {
+		this.tournament_start_date = tournament_start_date;
 	}
 
-	public Date getTour_finish_date() {
-		return tour_finish_date;
+	public Date getTournament_finish_date() {
+		return tournament_finish_date;
 	}
 
-	public void setTour_finish_date(Date tour_finish_date) {
-		this.tour_finish_date = tour_finish_date;
+	public void setTournament_finish_date(Date tournament_finish_date) {
+		this.tournament_finish_date = tournament_finish_date;
 	}
 
 	
+
 	
-	
-	
+
 	
 }

@@ -12,12 +12,13 @@ import javax.persistence.PersistenceContext;
 
 import com.tennis.models.Admin;
 import com.tennis.models.Game;
-import com.tennis.models.Game.GameStatus;
 import com.tennis.models.Login;
 import com.tennis.models.Parent;
+import com.tennis.models.GameSet;
 import com.tennis.models.Player;
 import com.tennis.models.Role;
 import com.tennis.models.Tournament;
+import com.tennis.models.Game.GameStatus;
 import com.tennis.utils.HashAlgorithm;
 import com.tennis.utils.HashingUtils;
 import com.tennis.models.Player.Gender;
@@ -66,19 +67,19 @@ public class InitService {
 			Player player3 = new Player();
 			player3.setFirstname("Roger");
 			player3.setLastname("Federer");
-			player3.setAge(40);
+			player3.setAge(47);
 			player3.setEmail("roger@gmail.com");
 			player3.setGender(Gender.MALE);
 			player3.setPhone_num("5555555555");
 			player3.setPassword(HashingUtils.hashPassword("1234", HashAlgorithm.SHA256).toString());
 			player3.setRole(Role.PLAYER);
-
+			
 			Login login5 = new Login(player3.getEmail(),player3.getPassword(), Role.PLAYER);
 			
 			Player player4 = new Player();
 			player4.setFirstname("Rafael");
 			player4.setLastname("Nadal");
-			player4.setAge(42);
+			player4.setAge(45);
 			player4.setEmail("rafael@gmail.com");
 			player4.setGender(Gender.MALE);
 			player4.setPhone_num("5555555555");
@@ -97,7 +98,6 @@ public class InitService {
 			parent.setPassword(HashingUtils.hashPassword("1234", HashAlgorithm.SHA256).toString());
 			parent.setRole(Role.PARENT);
 			parent.setChild_player(player);
-
 
 			Login login2 = new Login(parent.getEmail(),parent.getPassword(), Role.PARENT);
 
@@ -161,10 +161,9 @@ public class InitService {
 			game.setCourt(1);
 			game.setDate(LocalDate.of(2020, Month.JUNE, 22));
 			game.setTime(LocalTime.of(15, 30));
+			game.setPlayer1((this.playerOfTheGames.get(0)));
+			game.setPlayer2((this.playerOfTheGames.get(1)));
 			game.setGameStatus(GameStatus.NOT_PLAYED_YET);
-			//game.setPlayersOfTheGame(this.playerOfTheGames);
-			game.setPlayer1(this.playerOfTheGames.get(0));
-			game.setPlayer2(this.playerOfTheGames.get(1));
 			
 			entityManager.persist(game);
 			
