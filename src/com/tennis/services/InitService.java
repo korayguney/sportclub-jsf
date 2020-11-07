@@ -96,6 +96,8 @@ public class InitService {
 			parent.setEmail("s@s.com");
 			parent.setPassword(HashingUtils.hashPassword("1234", HashAlgorithm.SHA256).toString());
 			parent.setRole(Role.PARENT);
+			parent.setChild_player(player);
+
 
 			Login login2 = new Login(parent.getEmail(),parent.getPassword(), Role.PARENT);
 

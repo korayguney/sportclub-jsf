@@ -20,6 +20,7 @@ public class Login {
 	
 	public Login() {
 		super();
+		System.out.println("3- In the MODEL (Login.class)");
 	}
 
 	public Login(String email, String password, Role role) {
@@ -41,6 +42,7 @@ public class Login {
 	}
 
 	public void setEmail(String email) {
+		System.out.println("4- In the MODEL (Login.class) - setEmail"  );
 		this.email = email;
 	}
 
@@ -49,6 +51,7 @@ public class Login {
 	}
 
 	public void setPassword(String password) {
+		System.out.println("4- In the MODEL (Login.class) - setPassword"  );
 		this.password = password;
 	}
 

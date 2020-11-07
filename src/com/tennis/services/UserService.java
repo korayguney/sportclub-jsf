@@ -2,19 +2,18 @@ package com.tennis.services;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 import com.tennis.exceptions.EmailIsAlreadyExistException;
+import com.tennis.models.Game;
+import com.tennis.models.Game.GameStatus;
+import com.tennis.models.GameSet;
 import com.tennis.models.Login;
+import com.tennis.models.Parent;
 import com.tennis.models.Player;
-import com.tennis.models.Role;
+import com.tennis.models.Tournament;
 import com.tennis.models.User;
 import com.tennis.utils.HashAlgorithm;
 import com.tennis.utils.HashingUtils;
@@ -34,19 +33,18 @@ public class UserService {
 
 		List<User> result = checkUserExists(user.getEmail());
 
-		if (result.size() > 0) {
+		if(result.size() > 0) {
 			throw new EmailIsAlreadyExistException();
 		}
-
+		
 		entityManager.persist(user);
-
+		
 		saveToLogin(user);
 
 	}
 
 	private void saveToLogin(User user) {
-		Login login = new Login(user.getEmail(),
-				HashingUtils.hashPassword(user.getPassword(), HashAlgorithm.SHA256).toString(), user.getRole());
+		Login login = new Login(user.getEmail(), HashingUtils.hashPassword(user.getPassword(), HashAlgorithm.SHA256).toString(), user.getRole());
 		entityManager.persist(login);
 	}
 
@@ -59,10 +57,22 @@ public class UserService {
 	}
 
 	public void deleteUser(User user) {
-
 		user = entityManager.find(User.class, user.getId());
 		entityManager.remove(user);
-		entityManager.createQuery("delete from Login l where l.email =:email").setParameter("email", user.getEmail()).executeUpdate();
+		entityManager.createQuery("delete from Login l where l.email =:email")
+        .setParameter("email",  user.getEmail()).executeUpdate();
+	}
+	
+	public User getUser(int userId) {
+		User user = entityManager.find(User.class, userId);
+		return user;
+	}
+
+	public void updateUser(User user, String email) {
+		Login login = entityManager.createQuery("from Login l where l.email =:email", Login.class).setParameter("email", email).getSingleResult();
+		login.setEmail(email);
+		entityManager.merge(login);
+		entityManager.merge(user);
 	}
 
 	public List<Player> getAllPlayers() {
@@ -70,17 +80,36 @@ public class UserService {
 		return players;
 	}
 
-	public User getUser(int userId) {
-		User user = entityManager.find(User.class, userId);
-		return user;
+	public Player getPlayer(int player1id) {
+		return entityManager.find(Player.class, player1id);
 	}
 
-	public User updateUser(User user, String previousEmail) {
-		Login login = entityManager.createQuery("from Login l where l.email =:email", Login.class).setParameter("email", previousEmail).getSingleResult();
-		login.setEmail(user.getEmail());
-		entityManager.merge(login);
-		User user1 = entityManager.merge(user);
-		return user1;
+	public Player getPlayerOfParent(User user) {
+		Parent parent = entityManager.createQuery("from Parent p where p.email =:email", Parent.class).setParameter("email", user.getEmail()).getSingleResult();
+		System.out.println("CHILD OF PARENT : " + parent.getChild_player().getFirstname());
+		return parent.getChild_player();
 	}
+
+	
+	
+	public Tournament getTournamentOfPlayer(Player playerOfParent) {
+		Game game = getCurrentGameOfPlayer(playerOfParent);
+		System.out.println("Tournamement of the player : "+game.getTournament());
+		return game.getTournament();
+	}
+
+	private Game getCurrentGameOfPlayer(Player playerOfParent) {
+		Game game = entityManager.createQuery("from Game g WHERE g.gameStatus=:status AND g.player1 =:player1 OR g.player2 =:player2", Game.class)
+				.setParameter("status", GameStatus.NOW_PLAYING).setParameter("player1", playerOfParent).setParameter("player2", playerOfParent).getSingleResult();
+		return game;
+	}
+
+	public GameSet getGameSetOfPlayer(Player playerOfParent) {
+		Game game = getCurrentGameOfPlayer(playerOfParent);
+		List<GameSet> gameSet = entityManager.createQuery("from GameSet g WHERE g.game =:game", GameSet.class)
+				.setParameter("game", game).getResultList();
+		return gameSet.get(gameSet.size()-1);
+	}
+
 
 }

@@ -50,15 +50,9 @@ public class UpdateUserBean {
 	}
 
 	public String updateUser() {
-		User user1 = userService.updateUser(user, previousEmail);
-		if(user1 != null) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "", "User is updated"));
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "", "User cannot be updated"));
-		}
-		
+		userService.updateUser(user, this.previousEmail);
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "User is updated"));
 		return "secure/updateuser";
 	}
 

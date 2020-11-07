@@ -45,6 +45,9 @@ public class TennisFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
+		System.out.println("1- In the FILTER (TennisFilter)");
+		
+		
 		Object currentSession = ((HttpServletRequest)request).getSession().getAttribute("sessionScopeBean");
 		
 		if(currentSession != null) {

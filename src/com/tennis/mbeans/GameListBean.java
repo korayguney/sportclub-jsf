@@ -1,6 +1,5 @@
 package com.tennis.mbeans;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.tennis.models.Game;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
+import com.tennis.models.Game.GameStatus;
 import com.tennis.services.GameService;
 import com.tennis.services.TournamentService;
 import com.tennis.services.UserService;
@@ -25,74 +25,82 @@ import com.tennis.services.UserService;
 @ManagedBean
 public class GameListBean {
 
-	private List<Game> games;
-	private Tournament tournament;
 	private Game game;
+	private Tournament tournament;
+	private List<Game> games;
+	private String gamehour;
 	private List<Player> players;
 	private Date gamedate;
-	private String gamehour;
-
 	private Player player1;
 	private Player player2;
-	
 	private int player1id;
 	private int player2id;
 
-	@EJB
-	private GameService gameService;
 
 	@EJB
-	private TournamentService tournamentService;
+	GameService gameService;
+
+	@EJB
+	TournamentService tournamentService;
 	
 	@EJB
-	private UserService userService;
-
+	UserService userService;
+	
 	@ManagedProperty(value = "#{sessionScopeBean}")
 	SessionScopeBean sessionScopeBean;
-	
+
 	@PostConstruct
 	public void init() {
-
 		tournament = new Tournament();
-		this.players = new ArrayList<Player>();
-		this.players = userService.getAllPlayers();
+		players = userService.getAllPlayers();
 		game = new Game();
+		
 		try {
-			
 			HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 					.getRequest();
-			int tournamentId = Integer.valueOf(req.getParameter("tournamentId"));
+			int tournamentId = Integer.parseInt(req.getParameter("tournamentId"));
 			tournament = tournamentService.getTournament(tournamentId);
 			sessionScopeBean.setTournament(tournament);
-			games = gameService.getAllGames(tournament);
-
+			games = gameService.getAllGames(this.tournament);
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("Inside catch init() of GameListBean");
 		}
+
 		
+
 	}
 
 	public String saveGame(int player1id, int player2id) {
-
+		
+		System.out.println("Player1 id: " + player1id + " , Player2 id: " + player2id);
+		
 		this.game.setDate(getGamedate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		this.game.setTime(LocalTime.parse(gamehour));
 		
 		this.player1id = player1id;
 		this.player2id = player2id;
 		
-		this.player1 = gameService.findPlayer(this.player1id);
-		this.player2 = gameService.findPlayer(this.player2id);
+		this.player1 = userService.getPlayer(this.player1id);
+		this.player2 = userService.getPlayer(this.player2id);
 		
-		this.game.setPlayer1(this.player1);
-		this.game.setPlayer2(this.player2);
+		System.out.println("Player1 : " + player1 + " , Player2: " + player2);
+
 		
-		this.game.setPlace(tournament.getTour_place());
+//		List<Player> selectedPlayer = new ArrayList<>();
+//		selectedPlayer.add(player1);
+//		selectedPlayer.add(player2);
+		
+		//this.game.setPlayersOfGame(selectedPlayer);
+		 
+		this.game.setPlayer1(player1); 
+		this.game.setPlayer2(player2);
+		this.game.setPlace(sessionScopeBean.getTournament().getTour_place());
 		this.game.setTournament(sessionScopeBean.getTournament());
-		
-		gameService.saveGame(game);
-		
+		this.game.setGameStatus(GameStatus.NOT_PLAYED_YET);
+		gameService.saveGame(this.game);
+
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Game is succesfully saved"));
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Game is saved "));
 
 		return "secure/addgame";
 
@@ -102,16 +110,15 @@ public class GameListBean {
 		gameService.deleteGame(game);
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Succesfully deleted"));
-		return "secure/gamelist?faces-redirect=true";
-
+		return "#{request.contextPath}/../secure/gamelist?faces-redirect=true";
 	}
 
-	public TournamentService getTournamentService() {
-		return tournamentService;
+	public Game getGame() {
+		return game;
 	}
 
-	public void setTournamentService(TournamentService tournamentService) {
-		this.tournamentService = tournamentService;
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	public Tournament getTournament() {
@@ -130,14 +137,6 @@ public class GameListBean {
 		this.games = games;
 	}
 
-	public Game getGame() {
-		return game;
-	}
-
-	public void setGame(Game game) {
-		this.game = game;
-	}
-
 	public GameService getGameService() {
 		return gameService;
 	}
@@ -146,7 +145,29 @@ public class GameListBean {
 		this.gameService = gameService;
 	}
 
-	
+	public String getGamehour() {
+		return gamehour;
+	}
+
+	public void setGamehour(String gamehour) {
+		this.gamehour = gamehour;
+	}
+
+	public TournamentService getTournamentService() {
+		return tournamentService;
+	}
+
+	public void setTournamentService(TournamentService tournamentService) {
+		this.tournamentService = tournamentService;
+	}
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(List<Player> players) {
+		this.players = players;
+	}
 
 	public Player getPlayer1() {
 		return player1;
@@ -164,44 +185,12 @@ public class GameListBean {
 		this.player2 = player2;
 	}
 
-	public List<Player> getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
-
 	public UserService getUserService() {
 		return userService;
 	}
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}
-
-	public Date getGamedate() {
-		return gamedate;
-	}
-
-	public void setGamedate(Date gamedate) {
-		this.gamedate = gamedate;
-	}
-
-	public String getGamehour() {
-		return gamehour;
-	}
-
-	public void setGamehour(String gamehour) {
-		this.gamehour = gamehour;
-	}
-
-	public SessionScopeBean getSessionScopeBean() {
-		return sessionScopeBean;
-	}
-
-	public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
-		this.sessionScopeBean = sessionScopeBean;
 	}
 
 	public int getPlayer1id() {
@@ -220,6 +209,21 @@ public class GameListBean {
 		this.player2id = player2id;
 	}
 
+	public Date getGamedate() {
+		return gamedate;
+	}
+
+	public void setGamedate(Date gamedate) {
+		this.gamedate = gamedate;
+	}
+
+	public SessionScopeBean getSessionScopeBean() {
+		return sessionScopeBean;
+	}
+
+	public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
+		this.sessionScopeBean = sessionScopeBean;
+	}
 	
 	
 }

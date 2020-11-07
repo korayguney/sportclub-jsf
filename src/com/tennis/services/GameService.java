@@ -7,15 +7,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.tennis.exceptions.EmailIsAlreadyExistException;
 import com.tennis.models.Game;
 import com.tennis.models.GameSet;
-import com.tennis.models.Login;
-import com.tennis.models.Player;
 import com.tennis.models.Tournament;
-import com.tennis.models.User;
-import com.tennis.utils.HashAlgorithm;
-import com.tennis.utils.HashingUtils;
 
 @Stateless
 public class GameService {
@@ -24,60 +18,93 @@ public class GameService {
 	EntityManager entityManager;
 
 	public List<Game> getAllGames(Tournament tournament) {
-		List<Game> games = entityManager.createQuery("from Game g where g.tournament.tour_name =:tourname", Game.class)
-				.setParameter("tourname", tournament.getTour_name()).getResultList();
+		List<Game> games = entityManager
+				.createQuery("select g from Game g where g.tournament.tour_name =:tournament", Game.class)
+				.setParameter("tournament", tournament.getTour_name()).getResultList();
+
 		return games;
 	}
 
-	public void saveGame(Game game) {
-
-		entityManager.persist(game);
-
-	}
-
 	public void deleteGame(Game game) {
+
 		game = entityManager.find(Game.class, game.getId());
+
+		// game.setTournament(null);
+
 		entityManager.remove(game);
 	}
 
-	public Player findPlayer(int playerId) {
-		return entityManager.find(Player.class, playerId);
+	public Game getGame(int gameId) {
+		Game game = entityManager.find(Game.class, gameId);
+		return game;
 	}
 
-	public Game getGame(int gameId) {
-		return entityManager.find(Game.class, gameId);
+	public void updateGame(Game game) {
+		entityManager.merge(game);
+	}
+
+	public void saveGame(Game game) {
+		System.out.println("SERVICE saveGame --> " + game);
+
+		entityManager.persist(game);
+	}
+
+	public void submitScore(GameSet gameSet) {
+		System.out.println(gameSet);
+
+		GameSet gameSet2 = entityManager.find(GameSet.class, gameSet.getId());
+
+		if (gameSet2 != null) {
+
+			entityManager.createQuery(
+					"update GameSet g set g.score1 =:score1, g.score2 =:score2, g.set_number =:set_number where g.game =:game")
+					.setParameter("score1", gameSet.getScore1()).setParameter("score2", gameSet.getScore2())
+					.setParameter("game", gameSet.getGame()).setParameter("set_number", gameSet.getSet_number())
+					.executeUpdate();
+
+		} else {
+			entityManager.persist(gameSet);
+		}
+
+	}
+
+	public void submitSet(GameSet set) {
+		entityManager.merge(set);
 	}
 
 	public void startGame(Game game) {
 		entityManager.merge(game);
 	}
 
-	public void submitScore(GameSet gameSet) {
-		
-		GameSet gameSet2 = entityManager.find(GameSet.class, gameSet.getId());
-		
-		if(gameSet2 != null) {
-			entityManager.createQuery("UPDATE GameSet g SET g.score1 =?1, g.score2 =?2, g.set_no =?3 WHERE g.game =?4 ")
-			.setParameter(1, gameSet.getScore1()).setParameter(2, gameSet.getScore2()).setParameter(3, gameSet.getSet_no())
-			.setParameter(4, gameSet.getGame()).executeUpdate();
-		} else {
-			entityManager.persist(gameSet);
-		}
-		
+	public void finishGame(Game game) {
+		entityManager.merge(game);
+	}
+
+	public List<Integer> getTotalScore(Game game) {
+		List<GameSet> gameSetList = entityManager.createQuery("from GameSet g where g.game =?1", GameSet.class)
+				.setParameter(1, game).getResultList();
+		List<Integer> lastScore = new ArrayList<Integer>();
+
+		return null;
 	}
 
 	public List<Integer> getLastSetScores(Game game) {
 		Game found_game = entityManager.find(Game.class, game.getId());
 		
-		List<Integer> scores = new ArrayList<Integer>();
-		scores.add(found_game.getSet_score1());
-		scores.add(found_game.getSet_score2());
+		System.out.println("Found Game : " + found_game);
 		
-		return scores;
+		List<Integer> scoreList = new ArrayList<>();
+		scoreList.add(found_game.getSet_score1());
+		scoreList.add(found_game.getSet_score2());
+		
+		System.out.println("Score is found : " + scoreList.get(0)+ "-" + scoreList.get(1));
+		
+		return scoreList;
 	}
 
 	public void submitSetScore(Game game) {
 		entityManager.merge(game);
 	}
 
+	
 }

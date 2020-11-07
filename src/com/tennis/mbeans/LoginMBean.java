@@ -35,15 +35,18 @@ public class LoginMBean {
 	private LoginService loginService;
 
 	public String checkUser() {
-		System.out.println("inside checkuser");
+		System.out.println("2- In the CONTROLLER (LoginMBean) " + login.toString());
+
 		User user = loginService.checkUserOnDatabase(login);
-		System.out.println("USER : " + user );
 		
 		if (user != null) {
+			System.out.println("8- In the CONTROLLER (LoginMBean) " + user.toString());
 			
 			sessionScopeBean.setUser(user);
 			
 			if (user instanceof Admin) {
+				System.out.println("9- In the CONTROLLER (LoginMBean) - will return  secure/main-admin");
+
 				return "secure/main-admin";
 			} else if (user instanceof Parent) {
 				return "secure/main-parent";

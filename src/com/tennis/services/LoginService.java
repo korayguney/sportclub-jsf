@@ -23,6 +23,7 @@ public class LoginService {
 	EntityManager entityManager;
 
 	public User checkUserOnDatabase(Login login) {
+		System.out.println("5- In the SERVICE (LoginService) ");
 
 		try {
 			TypedQuery<Login> q = entityManager
@@ -30,7 +31,7 @@ public class LoginService {
 			q.setParameter("email", login.getEmail());
 			q.setParameter("password", HashingUtils.hashPassword(login.getPassword(), HashAlgorithm.SHA256).toString());
 			Login loginResult = q.getSingleResult();
-
+			
 			return ((loginResult != null) ? getUserFromDatabase(loginResult) : null);
 
 		} catch (Exception e) {
@@ -42,7 +43,7 @@ public class LoginService {
 
 	private User getUserFromDatabase(Login login) {
 
-		System.out.println("LOGIN : " + login.toString());
+		System.out.println("6/7- In the SERVICE (LoginService) - getUserFromDatabase " + login.toString());
 
 		switch (login.getRole()) {
 		case ADMIN:
