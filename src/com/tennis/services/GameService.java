@@ -7,8 +7,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.tennis.models.Game;
-import com.tennis.models.GameSet;
+import com.tennis.models.Match;
+import com.tennis.models.MatchScore;
 import com.tennis.models.Tournament;
 
 @Stateless
@@ -17,42 +17,42 @@ public class GameService {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	public List<Game> getAllGames(Tournament tournament) {
-		List<Game> games = entityManager
-				.createQuery("select g from Game g where g.tournament.tour_name =:tournament", Game.class)
+	public List<Match> getAllGames(Tournament tournament) {
+		List<Match> games = entityManager
+				.createQuery("select g from Game g where g.tournament.tour_name =:tournament", Match.class)
 				.setParameter("tournament", tournament.getTour_name()).getResultList();
 
 		return games;
 	}
 
-	public void deleteGame(Game game) {
+	public void deleteGame(Match game) {
 
-		game = entityManager.find(Game.class, game.getId());
+		game = entityManager.find(Match.class, game.getId());
 
 		// game.setTournament(null);
 
 		entityManager.remove(game);
 	}
 
-	public Game getGame(int gameId) {
-		Game game = entityManager.find(Game.class, gameId);
+	public Match getGame(int gameId) {
+		Match game = entityManager.find(Match.class, gameId);
 		return game;
 	}
 
-	public void updateGame(Game game) {
+	public void updateGame(Match game) {
 		entityManager.merge(game);
 	}
 
-	public void saveGame(Game game) {
+	public void saveGame(Match game) {
 		System.out.println("SERVICE saveGame --> " + game);
 
 		entityManager.persist(game);
 	}
 
-	public void submitScore(GameSet gameSet) {
+	public void submitScore(MatchScore gameSet) {
 		System.out.println(gameSet);
 
-		GameSet gameSet2 = entityManager.find(GameSet.class, gameSet.getId());
+		MatchScore gameSet2 = entityManager.find(MatchScore.class, gameSet.getId());
 
 		if (gameSet2 != null) {
 
@@ -68,28 +68,28 @@ public class GameService {
 
 	}
 
-	public void submitSet(GameSet set) {
+	public void submitSet(MatchScore set) {
 		entityManager.merge(set);
 	}
 
-	public void startGame(Game game) {
+	public void startGame(Match game) {
 		entityManager.merge(game);
 	}
 
-	public void finishGame(Game game) {
+	public void finishGame(Match game) {
 		entityManager.merge(game);
 	}
 
-	public List<Integer> getTotalScore(Game game) {
-		List<GameSet> gameSetList = entityManager.createQuery("from GameSet g where g.game =?1", GameSet.class)
+	public List<Integer> getTotalScore(Match game) {
+		List<MatchScore> gameSetList = entityManager.createQuery("from GameSet g where g.game =?1", MatchScore.class)
 				.setParameter(1, game).getResultList();
 		List<Integer> lastScore = new ArrayList<Integer>();
 
 		return null;
 	}
 
-	public List<Integer> getLastSetScores(Game game) {
-		Game found_game = entityManager.find(Game.class, game.getId());
+	public List<Integer> getLastSetScores(Match game) {
+		Match found_game = entityManager.find(Match.class, game.getId());
 		
 		System.out.println("Found Game : " + found_game);
 		
@@ -102,7 +102,7 @@ public class GameService {
 		return scoreList;
 	}
 
-	public void submitSetScore(Game game) {
+	public void submitSetScore(Match game) {
 		entityManager.merge(game);
 	}
 

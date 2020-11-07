@@ -13,11 +13,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import com.tennis.models.Game;
-import com.tennis.models.GameSet;
+import com.tennis.models.Match;
+import com.tennis.models.MatchScore;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
-import com.tennis.models.Game.GameStatus;
+import com.tennis.models.Match.GameStatus;
 import com.tennis.services.GameService;
 import com.tennis.services.TournamentService;
 import com.tennis.services.UserService;
@@ -26,13 +26,13 @@ import com.tennis.services.UserService;
 @ViewScoped
 public class ScoreGameBean {
 
-	private Game game;
+	private Match game;
 	private Tournament tournament;
 	private List<Player> players;
 	private Date gamedate;
 	private Player player1;
 	private Player player2;
-	private GameSet gameSet;
+	private MatchScore gameSet;
 
 	@EJB
 	GameService gameService;
@@ -50,8 +50,8 @@ public class ScoreGameBean {
 	public void init() {
 
 		players = userService.getAllPlayers();
-		game = new Game();
-		gameSet = new GameSet();
+		game = new Match();
+		gameSet = new MatchScore();
 
 		try {
 			HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -66,7 +66,7 @@ public class ScoreGameBean {
 
 	}
 
-	public void startGame(Game game) {
+	public void startGame(Match game) {
 		this.game = game;
 		this.game.setGameStatus(GameStatus.NOW_PLAYING);
 		this.gameSet.setSet_number(1);
@@ -131,7 +131,7 @@ public class ScoreGameBean {
 	}
 
 
-	private void submitGame(Game game2, int score1, int score2) {
+	private void submitGame(Match game2, int score1, int score2) {
 		this.game = game2;
 		this.game.setGameStatus(GameStatus.FINISHED);
 		gameService.finishGame(this.game);
@@ -150,7 +150,7 @@ public class ScoreGameBean {
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Game is finished ", "Winner of the period : " + winner.getFirstname() + " " + winner.getLastname()));
 	}
 
-	public void submitGame(Game game, int set1, int score1, int score2) {
+	public void submitGame(Match game, int set1, int score1, int score2) {
 		if (set1 == 5) {
 			this.game = game;
 			this.game.setGameStatus(GameStatus.FINISHED);
@@ -176,11 +176,11 @@ public class ScoreGameBean {
 
 	}
 
-	public Game getGame() {
+	public Match getGame() {
 		return game;
 	}
 
-	public void setGame(Game game) {
+	public void setGame(Match game) {
 		this.game = game;
 	}
 
@@ -256,11 +256,11 @@ public class ScoreGameBean {
 		this.sessionScopeBean = sessionScopeBean;
 	}
 
-	public GameSet getGameSet() {
+	public MatchScore getGameSet() {
 		return gameSet;
 	}
 
-	public void setGameSet(GameSet gameSet) {
+	public void setGameSet(MatchScore gameSet) {
 		this.gameSet = gameSet;
 	}
 

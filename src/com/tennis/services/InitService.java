@@ -11,14 +11,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.tennis.models.Admin;
-import com.tennis.models.Game;
+import com.tennis.models.Match;
 import com.tennis.models.Login;
 import com.tennis.models.Parent;
-import com.tennis.models.GameSet;
+import com.tennis.models.MatchScore;
 import com.tennis.models.Player;
 import com.tennis.models.Role;
 import com.tennis.models.Tournament;
-import com.tennis.models.Game.GameStatus;
+import com.tennis.models.Match.GameStatus;
 import com.tennis.utils.HashAlgorithm;
 import com.tennis.utils.HashingUtils;
 import com.tennis.models.Player.Gender;
@@ -156,7 +156,7 @@ public class InitService {
 			entityManager.persist(tournament1);
 			entityManager.persist(tournament2);
 			
-			Game game = new Game();
+			Match game = new Match();
 			game.setTournament(tournament1);
 			game.setCourt(1);
 			game.setDate(LocalDate.of(2020, Month.JUNE, 22));

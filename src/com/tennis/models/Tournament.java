@@ -2,6 +2,7 @@ package com.tennis.models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.tennis.models.Game;
+import com.tennis.models.Match;
 
 @Entity
 public class Tournament {
@@ -26,9 +27,8 @@ public class Tournament {
 	private LocalDate tour_start_date;
 	private LocalDate tour_finish_date;
 	
-	
 	@OneToMany(mappedBy = "tournament" )
-	private List<Game> games = new ArrayList<Game>();
+	private List<Match> games = new ArrayList<Match>();
 	
 	@ManyToMany (mappedBy = "tournaments")
 	private List<Player> players = new ArrayList<Player>();
@@ -40,16 +40,11 @@ public class Tournament {
 		this.id = id;
 	}
 	
-	public List<Game> getGame() {
+	
+	public List<Match> getGames() {
 		return games;
 	}
-	public void setGame(List<Game> game) {
-		this.games = game;
-	}
-	public List<Game> getGames() {
-		return games;
-	}
-	public void setGames(List<Game> games) {
+	public void setGames(List<Match> games) {
 		this.games = games;
 	}
 	public List<Player> getPlayers() {
@@ -83,11 +78,12 @@ public class Tournament {
 		this.tour_finish_date = tour_finish_date;
 	}
 	
+	@Override
+	public String toString() {
+		return "Tournament [tour_id=" + id +", tour_name=" + tour_name + ", tour_place=" + tour_place + ", tour_start_date="
+				+ tour_start_date + ", tour_finish_date=" + tour_finish_date + "]";
+	}
 	
-	
-	
-	
-	
-	
+
 	
 }

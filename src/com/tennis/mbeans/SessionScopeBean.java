@@ -4,7 +4,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import com.tennis.models.Game;
+import com.tennis.models.Match;
 import com.tennis.models.Parent;
 import com.tennis.models.Tournament;
 import com.tennis.models.User;
@@ -15,7 +15,7 @@ public class SessionScopeBean {
 	
 	private User user;
 	private Tournament tournament;
-	private Game game;
+	private Match game;
 	private Parent parent;
 	
 	public User getUser() {
@@ -34,11 +34,11 @@ public class SessionScopeBean {
 		this.tournament = tournament;
 	}
 
-	public Game getGame() {
+	public Match getGame() {
 		return game;
 	}
 
-	public void setGame(Game game) {
+	public void setGame(Match game) {
 		this.game = game;
 	}
 

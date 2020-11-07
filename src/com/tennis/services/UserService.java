@@ -7,9 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.tennis.exceptions.EmailIsAlreadyExistException;
-import com.tennis.models.Game;
-import com.tennis.models.Game.GameStatus;
-import com.tennis.models.GameSet;
+import com.tennis.models.Match;
+import com.tennis.models.Match.GameStatus;
+import com.tennis.models.MatchScore;
 import com.tennis.models.Login;
 import com.tennis.models.Parent;
 import com.tennis.models.Player;
@@ -93,20 +93,20 @@ public class UserService {
 	
 	
 	public Tournament getTournamentOfPlayer(Player playerOfParent) {
-		Game game = getCurrentGameOfPlayer(playerOfParent);
+		Match game = getCurrentGameOfPlayer(playerOfParent);
 		System.out.println("Tournamement of the player : "+game.getTournament());
 		return game.getTournament();
 	}
 
-	private Game getCurrentGameOfPlayer(Player playerOfParent) {
-		Game game = entityManager.createQuery("from Game g WHERE g.gameStatus=:status AND g.player1 =:player1 OR g.player2 =:player2", Game.class)
+	private Match getCurrentGameOfPlayer(Player playerOfParent) {
+		Match game = entityManager.createQuery("from Game g WHERE g.gameStatus=:status AND g.player1 =:player1 OR g.player2 =:player2", Match.class)
 				.setParameter("status", GameStatus.NOW_PLAYING).setParameter("player1", playerOfParent).setParameter("player2", playerOfParent).getSingleResult();
 		return game;
 	}
 
-	public GameSet getGameSetOfPlayer(Player playerOfParent) {
-		Game game = getCurrentGameOfPlayer(playerOfParent);
-		List<GameSet> gameSet = entityManager.createQuery("from GameSet g WHERE g.game =:game", GameSet.class)
+	public MatchScore getGameSetOfPlayer(Player playerOfParent) {
+		Match game = getCurrentGameOfPlayer(playerOfParent);
+		List<MatchScore> gameSet = entityManager.createQuery("from GameSet g WHERE g.game =:game", MatchScore.class)
 				.setParameter("game", game).getResultList();
 		return gameSet.get(gameSet.size()-1);
 	}

@@ -14,10 +14,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import com.tennis.models.Game;
+import com.tennis.models.Match;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
-import com.tennis.models.Game.GameStatus;
+import com.tennis.models.Match.GameStatus;
 import com.tennis.services.GameService;
 import com.tennis.services.TournamentService;
 import com.tennis.services.UserService;
@@ -25,9 +25,9 @@ import com.tennis.services.UserService;
 @ManagedBean
 public class GameListBean {
 
-	private Game game;
+	private Match game;
 	private Tournament tournament;
-	private List<Game> games;
+	private List<Match> games;
 	private String gamehour;
 	private List<Player> players;
 	private Date gamedate;
@@ -53,7 +53,7 @@ public class GameListBean {
 	public void init() {
 		tournament = new Tournament();
 		players = userService.getAllPlayers();
-		game = new Game();
+		game = new Match();
 		
 		try {
 			HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -106,18 +106,18 @@ public class GameListBean {
 
 	}
 
-	public String deleteGame(Game game) {
+	public String deleteGame(Match game) {
 		gameService.deleteGame(game);
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Succesfully deleted"));
 		return "#{request.contextPath}/../secure/gamelist?faces-redirect=true";
 	}
 
-	public Game getGame() {
+	public Match getGame() {
 		return game;
 	}
 
-	public void setGame(Game game) {
+	public void setGame(Match game) {
 		this.game = game;
 	}
 
@@ -129,11 +129,11 @@ public class GameListBean {
 		this.tournament = tournament;
 	}
 
-	public List<Game> getGames() {
+	public List<Match> getGames() {
 		return games;
 	}
 
-	public void setGames(List<Game> games) {
+	public void setGames(List<Match> games) {
 		this.games = games;
 	}
 

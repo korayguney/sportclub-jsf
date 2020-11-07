@@ -7,8 +7,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 
-import com.tennis.models.Game;
-import com.tennis.models.GameSet;
+import com.tennis.models.Match;
+import com.tennis.models.MatchScore;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
 import com.tennis.models.User;
@@ -22,7 +22,7 @@ public class ParentBean {
 	private List<User> users;
 	private Player player;
 	private Tournament tournament;
-	private GameSet gameSet;
+	private MatchScore gameSet;
 	
 	@EJB
 	private UserService userService;
@@ -41,7 +41,7 @@ public class ParentBean {
 		users = userService.getAllUsers();
 		player = new Player();
 		tournament = new Tournament();
-		gameSet = new GameSet();
+		gameSet = new MatchScore();
 	}
 	
 	public Player getPlayerOfParent() {
@@ -54,12 +54,12 @@ public class ParentBean {
 		return this.tournament;
 	}
 	
-	public GameSet getGameSetOfPlayer() {
+	public MatchScore getGameSetOfPlayer() {
 		this.gameSet = userService.getGameSetOfPlayer(getPlayerOfParent());
 		return this.gameSet;
 	}
 	
-	public Game getCurrentGame() {
+	public Match getCurrentGame() {
 		return null;
 	}
 
@@ -119,11 +119,11 @@ public class ParentBean {
 		this.tournament = tournament;
 	}
 
-	public GameSet getGameSet() {
+	public MatchScore getGameSet() {
 		return gameSet;
 	}
 
-	public void setGameSet(GameSet gameSet) {
+	public void setGameSet(MatchScore gameSet) {
 		this.gameSet = gameSet;
 	}
 	

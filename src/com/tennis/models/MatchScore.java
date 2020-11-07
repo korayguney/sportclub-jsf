@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class GameSet {
+public class MatchScore {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,13 +17,13 @@ public class GameSet {
 	private int set_number;
 	
 	@OneToOne
-	private Game game;
+	private Match game;
 
-	public GameSet() {
+	public MatchScore() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public GameSet(int score1, int score2, int set_number, Game game) {
+	public MatchScore(int score1, int score2, int set_number, Match game) {
 		super();
 		this.score1 = score1;
 		this.score2 = score2;
@@ -64,11 +64,11 @@ public class GameSet {
 		this.score2 = score2;
 	}
 
-	public Game getGame() {
+	public Match getGame() {
 		return game;
 	}
 
-	public void setGame(Game game) {
+	public void setGame(Match game) {
 		this.game = game;
 	}
 

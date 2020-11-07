@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tennisgame")
-public class Game {
+public class Match {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Game {
 	private LocalTime time;
 	private String place;
 	private int court;
-	private GameStatus gameStatus;
+	private GameStatus matchStatus;
 	private int set_score1;
 	private int set_score2;
 
@@ -105,11 +105,11 @@ public class Game {
 	}
 
 	public GameStatus getGameStatus() {
-		return gameStatus;
+		return matchStatus;
 	}
 
 	public void setGameStatus(GameStatus gameStatus) {
-		this.gameStatus = gameStatus;
+		this.matchStatus = gameStatus;
 	}
 
 	public int getSet_score1() {
@@ -131,7 +131,7 @@ public class Game {
 	@Override
 	public String toString() {
 		return "Game [id=" + id + ", date=" + date + ", time=" + time + ", place=" + place + ", court=" + court
-				+ ", gameStatus=" + gameStatus + ", set_score1=" + set_score1 + ", set_score2=" + set_score2
+				+ ", gameStatus=" + matchStatus + ", set_score1=" + set_score1 + ", set_score2=" + set_score2
 				+ ", player1=" + player1 + ", player2=" + player2 + ", tournament=" + tournament + "]";
 	}
 
