@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Game {
+public class Match {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

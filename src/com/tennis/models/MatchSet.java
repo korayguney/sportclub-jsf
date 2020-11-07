@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class GameSet {
+public class MatchSet {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class GameSet {
 	private int set_no;
 	
 	@OneToOne
-	private Game game;
+	private Match game;
 	
 	
 	public int getId() {
@@ -45,10 +45,10 @@ public class GameSet {
 		this.set_no = set_no;
 	}
 	
-	public Game getGame() {
+	public Match getGame() {
 		return game;
 	}
-	public void setGame(Game game) {
+	public void setGame(Match game) {
 		this.game = game;
 	}
 	@Override
