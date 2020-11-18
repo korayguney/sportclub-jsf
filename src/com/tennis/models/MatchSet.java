@@ -17,7 +17,7 @@ public class MatchSet {
 	private int set_no;
 	
 	@OneToOne
-	private Match game;
+	private Game game;
 	
 	
 	public int getId() {
@@ -45,10 +45,10 @@ public class MatchSet {
 		this.set_no = set_no;
 	}
 	
-	public Match getGame() {
+	public Game getGame() {
 		return game;
 	}
-	public void setGame(Match game) {
+	public void setGame(Game game) {
 		this.game = game;
 	}
 	@Override

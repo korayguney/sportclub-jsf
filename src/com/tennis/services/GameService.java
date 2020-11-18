@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import com.tennis.exceptions.EmailIsAlreadyExistException;
 import com.tennis.models.Game;
-import com.tennis.models.GameSet;
+import com.tennis.models.MatchSet;
 import com.tennis.models.Login;
 import com.tennis.models.Player;
 import com.tennis.models.Tournament;
@@ -52,9 +52,9 @@ public class GameService {
 		entityManager.merge(game);
 	}
 
-	public void submitScore(GameSet gameSet) {
+	public void submitScore(MatchSet gameSet) {
 		
-		GameSet gameSet2 = entityManager.find(GameSet.class, gameSet.getId());
+		MatchSet gameSet2 = entityManager.find(MatchSet.class, gameSet.getId());
 		
 		if(gameSet2 != null) {
 			entityManager.createQuery("UPDATE GameSet g SET g.score1 =?1, g.score2 =?2, g.set_no =?3 WHERE g.game =?4 ")
